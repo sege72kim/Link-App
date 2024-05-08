@@ -1,0 +1,18 @@
+.page {
+    padding: 0 10px;
+    box-sizing: border-box;
+    padding-bottom: 20px;
+}
+
+.page__title {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 28px;
+    color: #000000;
+    letter-spacing: 0.7px;
+}
+
+.page__disclaimer {
+    margin-bottom: 14px;
+}
+
