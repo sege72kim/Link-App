@@ -6,11 +6,33 @@ body {
     background: var(--background-color);
 
 }
-
-:root {
-    --background-color: white;
-    color: black
+:root{
+    --link-text-color: #007AFF;
 }
+@media (prefers-color-scheme: light) {
+    :root {
+        --line-opacity: 15%;
+        --background-color: #efeff4;
+        --background-color-2: #FFFFFF;
+        --sub-text-color: #707579;
+        --sub-text-color-2: #A2ACB0;
+        --line-fill: #000000;
+        color: black
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --line-opacity: 5%;
+        --background-color: #0F0F0F;
+        --background-color-2: #212121;
+        --sub-text-color: #AAAAAA;
+        --sub-text-color-2: #78797E;
+        --line-fill: #ffffff;
+        color: white;
+    }
+}
+
 
 blockquote {
     margin: 0;
@@ -28,5 +50,10 @@ pre {
 
 @font-face {
     font-family: 'SF Pro';
-    src: url('./SFPRODISPLAYREGULAR.OTF') format('truetype');;
+    src: url('./fonts/SFPRODISPLAYREGULAR.OTF') format('truetype');;
+}
+
+@font-face {
+    font-family: 'SF Pro Rounded';
+    src: url('./fonts/SF-Pro-Rounded-Regular.otf') format('truetype');;
 }
