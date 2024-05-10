@@ -13,36 +13,15 @@ export interface PageProps extends PropsWithChildren {
   disclaimer?: ReactNode
 }
 
-export const Page: FC<PageProps> = ({
-                                      children,
-                                      disclaimer
-                                    }) => {
+export const Page: FC<PageProps> = ({ children, disclaimer }) => {
   const intl = useIntl()
-
   const [tonConnectUI] = useTonConnectUI()
   const mainButton = useMainButton()
 
   const [isSent, setIsSent] = useState(false)
 
   useEffect(() => {
-    const use = async () => {
-      if (!tonConnectUI.connected) {
-        await tonConnectUI.openModal()
-      } else {
-        tonConnectUI.sendTransaction({
-          validUntil: Math.floor(Date.now() / 1000) + 180,
-          messages: [
-            {
-              address: import.meta.env.VITE_ADRESS,
-              amount: "1000000",
-              payload: 'te6ccsEBAQEAHwAAADoAAAAAV0UgV0FOTkEgTk9UQ09JTiBMSVNUSU5HITnGM2s='
-            }
-          ]
-        })
-          .then(() => setIsSent(true))
-          .catch(() => setIsSent(false))
-      }
-    }
+    const use = async () => {}
 
     if (tonConnectUI.connected) {
       mainButton.setText(intl.formatMessage({ id: "sign" }))
