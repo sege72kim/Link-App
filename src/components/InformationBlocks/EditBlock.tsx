@@ -9,37 +9,26 @@ interface Item {
 interface Props {
   tasks: Item[]
   blocktitle: string
+  blocksub: string
 }
-export const InfoBlock: React.FC<Props> = ({ tasks, blocktitle }) => {
-  //   const [tasks, setTasks] = useState([
-  //     {
-  //       id: 1,
-  //       title: "MainChannel",
-  //       url: "notmeme.org"
-  //     },
-  //     {
-  //       id: 2,
-  //       title: "MainChannel2",
-  //       url: "notmeme.org"
-  //     },
-  //     {
-  //       id: 3,
-  //       title: "MainChannel3",
-  //       url: "notmeme.org"
-  //     },
-  //     {
-  //       id: 4,
-  //       title: "MainChannel4",
-  //       url: "notmeme.org"
-  //     },
-  //     {
-  //       id: 5,
-  //       title: "MainChannel5",
-  //       url: "notmeme.org"
-  //     }
-  //   ])
+export const EditBlock: React.FC<Props> = ({ tasks, blocktitle, blocksub }) => {
   if (!tasks || tasks.length === 0) {
-    return <></>
+    return (
+      <div className="info_block_container_edit">
+        <div className="block_title">{blocktitle}</div>
+        <div className="info_block">
+          <div className="item_container">
+            <div className="add_button">
+              <div className="plus">+</div>
+              <div className="add">add</div>
+            </div>
+          </div>
+        </div>
+        <div className="info_subscription_2">
+          <div>{blocksub}</div>
+        </div>
+      </div>
+    )
   } else {
     return (
       <div className="info_block_container">
