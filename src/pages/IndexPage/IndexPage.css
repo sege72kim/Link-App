@@ -21,34 +21,3 @@
 .index-page__link-icon svg {
     display: block;
 }
-
-.start_page{
-    
-    
-}
-.start_page_img{
-    display: flex;
-    width: 100px;
-    height: 100px;
-    margin: 0 auto;
-    margin-top: 150px;
-}
-.start_page_title{
-    font-weight: 590;
-    font-size: 28px;
-    line-height: 34px;
-    letter-spacing: 0.38px;
-    text-align: center;
-    margin-top: 35px;
-}
-.start_page_text{
-    width: 286px;
-    margin: 0 auto;
-    margin-top: 8px;
-    color: var(--sub-text-color);
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 21px;
-    letter-spacing: -0.23px;
-    text-align: center;
-}
