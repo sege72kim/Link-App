@@ -1,28 +1,28 @@
 const history = [
   {
     id: 1,
-    link: "UQdh25-73yUhs",
-    date: 3
+    title: "MainChannel",
+    url: "notmeme.org"
   },
   {
     id: 2,
-    link: "KhU523-4kUFbCy",
-    date: 7
+    title: "MainChannel2",
+    url: "notmeme.org"
   },
   {
     id: 3,
-    link: "KhU523-4kUFbCy",
-    date: 7
+    title: "MainChannel3",
+    url: "notmeme.org"
   },
   {
     id: 4,
-    link: "KhU523-4kUFbCy",
-    date: 7
+    title: "MainChannel4",
+    url: "notmeme.org"
   },
   {
     id: 5,
-    link: "KhU523-4kUFbCy",
-    date: 7
+    title: "MainChannel5",
+    url: "notmeme.org"
   }
 ]
 export default history

@@ -1,8 +1,12 @@
 import type { FC } from "react"
 import { Page } from "~/components/Page/Page.tsx"
 import "./UserPage.css"
+import { InfoBlock } from "~/components/InformationBlocks/InfoBlock"
+import history from "~/utils/history"
+import { Link } from "react-router-dom"
 
 export const UserPage: FC = () => {
+  const array = history
   const avatar =
     "https://images.unsplash.com/photo-1575936123452-b67c3203c357?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D"
   const nickname = "AkbarHodzha"
@@ -24,7 +28,16 @@ export const UserPage: FC = () => {
             <div className="user_name">{user_name}</div>
           </div>
         </div>
-        <div className="edit_button">Edit</div>
+        <Link to="/egit_page" className="edit_button">
+          Edit
+        </Link>
+        <InfoBlock tasks={array} blocktitle="main" />
+        <InfoBlock tasks={array} blocktitle="telegram" />
+        <InfoBlock tasks={array} blocktitle="Social networks" />
+        <InfoBlock tasks={array} blocktitle="links" />
+        <InfoBlock tasks={array} blocktitle="phone" />
+        <InfoBlock tasks={array} blocktitle="mail" />
+        <InfoBlock tasks={array} blocktitle="wallet" />
       </div>
     </Page>
   )

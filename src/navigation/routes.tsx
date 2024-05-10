@@ -1,4 +1,5 @@
 import type { ComponentType, JSX } from "react"
+import { EditPage } from "~/pages/EgitPage/EgitPage"
 
 import { IndexPage } from "~/pages/IndexPage/IndexPage"
 import { UserPage } from "~/pages/UserPage/UserPage"
@@ -18,5 +19,9 @@ export const routes: Route[] = [
   {
     path: "/main",
     Component: UserPage
+  },
+  {
+    path: "/egit_page",
+    Component: EditPage
   }
 ]
