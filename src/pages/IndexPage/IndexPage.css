@@ -21,3 +21,6 @@
 .index-page__link-icon svg {
     display: block;
 }
+.index_page_container{
+    padding-bottom: 40px;
+}

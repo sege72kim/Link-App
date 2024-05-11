@@ -7,7 +7,9 @@ import { StartPage } from "../StartPage/StartPage"
 export const IndexPage: FC = () => {
   return (
     <Page title="Start Page">
-      <StartPage />
+      <div className="index_page_container">
+        <StartPage />
+      </div>
     </Page>
   )
 }

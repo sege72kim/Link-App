@@ -16,6 +16,7 @@ import {
 import Modal from "../AddingModal/Modal"
 import Task from "./Task"
 import "./styles.css"
+import { FormattedMessage } from "react-intl"
 
 interface Item {
   id: number
@@ -28,11 +29,12 @@ interface Props {
   blocktitle: string
   blocksub: string
   handlePinClick: (
+    id: number,
     title: string,
     url: string,
-    pinArray: { title: string; url: string }[]
+    pinArray: { id: number; title: string; url: string }[]
   ) => void
-  pinArray: { title: string; url: string }[]
+  pinArray: { id: number; title: string; url: string }[]
   prefixprop: string
 }
 
@@ -120,7 +122,9 @@ export const EditBlock: React.FC<Props> = ({
           <div className="item_container">
             <div className="add_button">
               <div className="plus">+</div>
-              <div className="add">add</div>
+              <div className="add">
+                <FormattedMessage id="add" />
+              </div>
             </div>
           </div>
         </div>
@@ -166,7 +170,9 @@ export const EditBlock: React.FC<Props> = ({
             <div className="item_container">
               <div className="add_button" onClick={() => setModalActive(true)}>
                 <div className="plus">+</div>
-                <div className="add">add</div>
+                <div className="add">
+                  <FormattedMessage id="add" />
+                </div>
               </div>
             </div>
           </div>

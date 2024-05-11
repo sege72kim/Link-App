@@ -4,8 +4,10 @@ import "./UserPage.css"
 import { InfoBlock } from "~/components/InformationBlocks/InfoBlock"
 import history from "~/utils/history"
 import { Link } from "react-router-dom"
+import { FormattedMessage, useIntl } from "react-intl"
 
 export const UserPage: FC = () => {
+  const intl = useIntl()
   const array = history
   const avatar =
     "https://images.unsplash.com/photo-1575936123452-b67c3203c357?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D"
@@ -29,15 +31,36 @@ export const UserPage: FC = () => {
           </div>
         </div>
         <Link to="/egit_page" className="edit_button">
-          Edit
+          <FormattedMessage id="edit" />
         </Link>
-        <InfoBlock tasks={array} blocktitle="main" />
-        <InfoBlock tasks={array} blocktitle="telegram" />
-        <InfoBlock tasks={array} blocktitle="Social networks" />
-        <InfoBlock tasks={array} blocktitle="links" />
-        <InfoBlock tasks={array} blocktitle="phone" />
-        <InfoBlock tasks={array} blocktitle="mail" />
-        <InfoBlock tasks={array} blocktitle="wallet" />
+        <InfoBlock
+          tasks={array}
+          blocktitle={intl.formatMessage({ id: "title1" })}
+        />
+        <InfoBlock
+          tasks={array}
+          blocktitle={intl.formatMessage({ id: "title2" })}
+        />
+        <InfoBlock
+          tasks={array}
+          blocktitle={intl.formatMessage({ id: "title3" })}
+        />
+        <InfoBlock
+          tasks={array}
+          blocktitle={intl.formatMessage({ id: "title4" })}
+        />
+        <InfoBlock
+          tasks={array}
+          blocktitle={intl.formatMessage({ id: "title5" })}
+        />
+        <InfoBlock
+          tasks={array}
+          blocktitle={intl.formatMessage({ id: "title6" })}
+        />
+        <InfoBlock
+          tasks={array}
+          blocktitle={intl.formatMessage({ id: "title7" })}
+        />
       </div>
     </Page>
   )

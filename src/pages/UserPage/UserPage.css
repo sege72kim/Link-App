@@ -1,3 +1,6 @@
+.user_page{
+    padding-bottom: 30px;
+}
 .user_page_img{
 width: 100%;
 height: 430px;
@@ -35,4 +38,5 @@ line-height: 22px;
 letter-spacing: -0.4000000059604645px;
 text-align: center;
 color: var(--link-text-color);
+text-decoration: none;
 }

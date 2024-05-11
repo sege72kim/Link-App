@@ -16,11 +16,12 @@ interface TaskProps {
   url: string
   blocksub: string
   onPinClick: (
+    id: number,
     title: string,
     url: string,
-    pinArray: { title: string; url: string }[]
+    pinArray: { id: number; title: string; url: string }[]
   ) => void
-  pinArray: { title: string; url: string }[]
+  pinArray: { id: number; title: string; url: string }[]
   tasks: Task[] // добавляем тип для исходного массива задач
   setTasks: React.Dispatch<React.SetStateAction<Task[]>>
   type: string
@@ -56,10 +57,10 @@ const Task: React.FC<TaskProps> = ({
       const updatedPins = pinArray.filter(
         (item) => !(item.title === title && item.url === url)
       )
-      onPinClick(title, url, updatedPins)
+      onPinClick(id, title, url, updatedPins)
     } else {
       setIsPinActive((prev) => !prev)
-      onPinClick(title, url, [...pinArray, { title, url }])
+      onPinClick(id, title, url, [...pinArray, { id, title, url }])
     }
   }
   const [input, setInput] = useState(title)

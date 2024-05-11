@@ -2,6 +2,7 @@ import type { FC } from "react"
 import { Page } from "~/components/Page/Page.tsx"
 import "./StartPage.css"
 import { Link } from "react-router-dom"
+import { FormattedDate, FormattedMessage } from "react-intl"
 
 export const StartPage: FC = () => {
   return (
@@ -10,9 +11,7 @@ export const StartPage: FC = () => {
         <img className="start_page_img" src="./images/logo_link.svg" />
         <div className="start_page_title">Links App</div>
         <div className="start_page_text">
-          Make your social media profile better right now. Create a Telegram
-          Mini App by yourself in just a couple of minutes, no designers or
-          programmers needed.
+          <FormattedMessage id="text_1" />
         </div>
         <Link to="/main">222</Link>
       </div>
