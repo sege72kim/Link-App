@@ -80,14 +80,16 @@ const Task: React.FC<TaskProps> = ({
     transform: transform ? CSS.Transform.toString(transform) : undefined
   }
   const [modalActive, setModalActive] = useState(false)
-  const prefix = { prefixprop }
   return (
     <div ref={setNodeRef} style={style} {...attributes} className="task">
       <div className="item_container">
         <div className="item_edit_container">
           <div className="left_part" onClick={() => setModalActive(true)}>
             <div className="item_title">{title}</div>
-            <div className="item_url">@{url}</div>
+            <div className="item_url">
+              {prefixprop}
+              {url}
+            </div>
           </div>
           <div className="right_part">
             <svg
@@ -143,9 +145,9 @@ const Task: React.FC<TaskProps> = ({
           <input
             type="text"
             placeholder="t.me/"
-            value={prefix + input2}
+            value={prefixprop + input2}
             onChange={(e) => {
-              const userInput = e.target.value.slice(prefix.length)
+              const userInput = e.target.value.slice(prefixprop.length)
               setInput2(userInput)
             }}
           />
