@@ -2,12 +2,16 @@ import React, { useState, useRef, ChangeEvent } from "react"
 import { Page } from "~/components/Page/Page.tsx"
 import "./EditPage.css"
 import { EditBlock } from "~/components/InformationBlocks/EditBlock"
-
+interface Item {
+  title: string
+  url: string
+}
 export const EditPage: React.FC = () => {
   const [selectedImage, setSelectedImage] = useState<
     string | ArrayBuffer | null
   >(null)
   const inputRef = useRef<HTMLInputElement>(null)
+  const [pinArray, setPinArray] = useState<Item[]>([])
 
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
@@ -34,7 +38,42 @@ export const EditPage: React.FC = () => {
   const Placeholder = "Name"
   const Placeholder2 = "@username"
   const Placeholder3 = "About"
-  const array = []
+
+  const handlePinClick = (
+    title: string,
+    url: string,
+    updatedPins: { title: string; url: string }[]
+  ) => {
+    console.log("Выбранный title:", title)
+    console.log("Выбранный url:", url)
+    setPinArray(updatedPins)
+  }
+
+  const array = [
+    {
+      id: 1,
+      title: "MainChannel",
+      url: "notmeme.org"
+    },
+    {
+      id: 2,
+      title: "MainChannel2",
+      url: "notmeme.org"
+    },
+    {
+      id: 3,
+      title: "MainChannel3",
+      url: "notmeme.org"
+    },
+    {
+      id: 4,
+      title: "MainChannel4",
+      url: "notmeme.org"
+    }
+  ]
+  const shedevr = () => {
+    console.log(pinArray)
+  }
   return (
     <Page title="Edit Page">
       <div className="avatar_picking">
@@ -96,8 +135,9 @@ export const EditPage: React.FC = () => {
             rows={4}
             style={{
               resize: "none",
-              fontSize: "16px",
-              fontWeight: "400"
+              fontSize: "17px",
+              fontWeight: "400",
+              color: "var(--color)"
             }}
             placeholder={Placeholder3}
           />
@@ -110,34 +150,48 @@ export const EditPage: React.FC = () => {
       </div>
       <EditBlock
         tasks={array}
-        blocktitle="telegram"
+        blocktitle="Telegram"
         blocksub="You can add up to 5 Telegram accounts, groups or channels usernames."
+        handlePinClick={handlePinClick}
+        pinArray={pinArray}
+        prefixprop="t.me/"
       />
       <EditBlock
         tasks={array}
         blocktitle="Social networks"
         blocksub="You can add up to 10 social network links."
+        handlePinClick={handlePinClick}
+        pinArray={pinArray}
       />
       <EditBlock
         tasks={array}
-        blocktitle="links"
+        blocktitle="Links"
         blocksub="You can add up to 5 links."
+        handlePinClick={handlePinClick}
+        pinArray={pinArray}
       />
       <EditBlock
         tasks={array}
-        blocktitle="phone"
+        blocktitle="Phone"
         blocksub="You can add up to 5 phone numbers."
+        handlePinClick={handlePinClick}
+        pinArray={pinArray}
       />
       <EditBlock
         tasks={array}
-        blocktitle="mail"
+        blocktitle="Mail"
         blocksub="You can add up to 5 Emails."
+        handlePinClick={handlePinClick}
+        pinArray={pinArray}
       />
       <EditBlock
         tasks={array}
-        blocktitle="wallet"
+        blocktitle="Wallet"
         blocksub="You can add up to 5 Crypto Wallets."
+        handlePinClick={handlePinClick}
+        pinArray={pinArray}
       />
+      <button onClick={shedevr}>322</button>
     </Page>
   )
 }

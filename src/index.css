@@ -12,6 +12,7 @@ body {
 @media (prefers-color-scheme: light) {
     :root {
         --line-opacity: 15%;
+        --cross-color: #e5e5ea;
         --background-color: #efeff4;
         --background-color-2: #FFFFFF;
         --sub-text-color: #707579;
@@ -24,6 +25,7 @@ body {
 @media (prefers-color-scheme: dark) {
     :root {
         --line-opacity: 5%;
+        --cross-color: #222222;
         --background-color: #0F0F0F;
         --background-color-2: #212121;
         --sub-text-color: #AAAAAA;

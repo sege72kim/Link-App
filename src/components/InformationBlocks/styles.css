@@ -38,6 +38,7 @@ text-align: left;
 color: var(--link-text-color)
 }
 .item_container {
+
     padding: 12px 16px;
     position: relative;
 }
@@ -55,7 +56,8 @@ color: var(--link-text-color)
     display:flex;
     column-gap: 10px;
     align-items: center;
-    padding: 3px 0;
+    padding: 4px 0;
+    cursor: pointer;
 }
 .plus{
     width: 20px;
@@ -89,4 +91,100 @@ text-align: left;
     width: 280px;
     margin-bottom: 10px;
     color: var(--sub-text-color)
+}
+.modal_top{
+    margin-top: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.modal_top div{
+margin: 0 auto;
+}
+.modal_top_line{
+    width: 36px;
+    height: 4px;
+    background-color: var(--line-fill);
+    opacity: var(--line-opacity);
+    border-radius: 5px;
+}
+.modal_top_text{
+font-size: 17px;
+font-weight: 590;
+line-height: 22px;
+letter-spacing: -0.4000000059604645px;
+text-align: center;
+padding-top: 5px;
+}
+.modal_close{
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    background-color: var(--cross-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.modal_close img{
+    width: 10px;
+    height: 10px;
+    opacity: 100%;
+    
+}
+.modal_input_container{
+    background-color: var(--background-color-2);
+    margin: 0 10px;
+    margin-top: 40px;
+    border-radius: 12px;
+}
+.modal_input_container input{
+    background-color: var(--background-color-2);
+    margin: 0 10px;
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 22px;
+    letter-spacing: -0.4000000059604645px;
+    text-align: left;
+    border: 0;
+    outline: 0;
+    padding: 16px;
+    color: var(--color)
+}
+.modal_sub_text{
+    width: 300px;
+    margin-left: 25px;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 16px;
+    letter-spacing: -0.07999999821186066px;
+    text-align: left;
+    margin-top: 5px;
+    color: var(--sub-text-color)
+}
+.fill_line_2 {
+    margin: 0 auto;
+    width: 90%;
+    opacity: var(--line-opacity);
+    height: 0.5px;
+    background-color: var(--line-fill);
+}
+.item_edit_container{
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.right_part{
+    column-gap: 13px;
+    display: flex;
+    align-items: center;
+}
+.sort_img{
+    cursor: grab;
+}
+.pin_img {
+    cursor: pointer;
 }
