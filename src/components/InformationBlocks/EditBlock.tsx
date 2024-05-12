@@ -124,32 +124,37 @@ export function EditBlock({
         onDragEnd={handleDragEnd}
         collisionDetection={closestCorners}
       >
-        <SortableContext items={tasks1} strategy={verticalListSortingStrategy}>
-          {tasks1.map((item) => (
-            <Task
-              key={item.id}
-              id={item.id}
-              title={item.title}
-              item={item.item}
-              blockSubTitle={intl.formatMessage({
-                id: `sub_block_${blockTitle}`
-              })}
-              blockPrefix={blockPrefix}
-              updateTaskData={updateTaskData}
-              modalActive={modalActive}
-              setModalActive={setModalActive}
-            />
-          ))}
-          <div
-            className="item_container"
-            onClick={() => setModalActive(blockTitle)}
+        <div className="info_block">
+          <SortableContext
+            items={tasks1}
+            strategy={verticalListSortingStrategy}
           >
-            <div className="add_button">
-              <div className="plus">+</div>
-              <FormattedMessage id="add" />
+            {tasks1.map((item) => (
+              <Task
+                key={item.id}
+                id={item.id}
+                title={item.title}
+                item={item.item}
+                blockSubTitle={intl.formatMessage({
+                  id: `sub_block_${blockTitle}`
+                })}
+                blockPrefix={blockPrefix}
+                updateTaskData={updateTaskData}
+                modalActive={modalActive}
+                setModalActive={setModalActive}
+              />
+            ))}
+            <div
+              className="item_container"
+              onClick={() => setModalActive(blockTitle)}
+            >
+              <div className="add_button">
+                <div className="plus">+</div>
+                <FormattedMessage id="add" />
+              </div>
             </div>
-          </div>
-        </SortableContext>
+          </SortableContext>
+        </div>
       </DndContext>
     )
   }
@@ -165,33 +170,39 @@ export function EditBlock({
       </div>
       <Modal active={modalActive === blockTitle} setActive={setModalActive}>
         <div className="modal_top">
-          <div className="modal_top_line" />
-          <div className="modal_top_text">{blockTitle}</div>
-          <div
-            className="modal_close"
-            onClick={() => {
-              setInput("")
-              setInput1("")
+          <div>
+            <div className="modal_top_line" />
+            <div className="modal_top_text">{blockTitle}</div>
+          </div>
+        </div>
+        <div
+          className="modal_close"
+          onClick={() => {
+            setInput("")
+            setInput1("")
 
-              setModalActive("false")
-            }}
-          >
-            <img src="/images/cross.svg" alt="Close" />
-          </div>
-          <div className="modal_input_container">
-            <input
-              type="text"
-              placeholder="Title"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder={blockPrefix}
-              value={input1}
-              onChange={(e) => setInput1(e.target.value)}
-            />
-          </div>
+            setModalActive("false")
+          }}
+        >
+          <img src="/images/cross.svg" alt="Close" />
+        </div>
+        <div className="modal_input_container">
+          <input
+            type="text"
+            placeholder="Title"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+          />
+          <div className="fill_line_2" />
+          <input
+            type="text"
+            placeholder={blockPrefix}
+            value={input1}
+            onChange={(e) => setInput1(e.target.value)}
+          />
+        </div>
+        <div className="modal_sub_text">
+          {intl.formatMessage({ id: `sub_block_${blockTitle}` })}
         </div>
       </Modal>
     </div>

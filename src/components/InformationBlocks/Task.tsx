@@ -113,7 +113,7 @@ function Task({
         <div className="modal_top">
           <div>
             <div className="modal_top_line" />
-            <div className="modal_top_text">SDASDASDSA</div>
+            <div className="modal_top_text">{title}</div>
           </div>
         </div>
         <div className="modal_close" onClick={() => setModalActive("")}>

@@ -160,7 +160,7 @@ export function EditPage({
       </div>
       <EditBlock
         tasks={data.telegrams}
-        blockTitle="telegrams"
+        blockTitle="Telegrams"
         blockPrefix="@"
         modalActive={modalActive}
         setModalActive={setModalActive}
@@ -168,7 +168,7 @@ export function EditPage({
       />
       <EditBlock
         tasks={data.socials}
-        blockTitle="socials"
+        blockTitle="Socials"
         blockPrefix="@"
         modalActive={modalActive}
         setModalActive={setModalActive}
@@ -176,15 +176,15 @@ export function EditPage({
       />
       <EditBlock
         tasks={data.links}
-        blockTitle="links"
-        blockPrefix=""
+        blockTitle="Links"
+        blockPrefix="Link"
         modalActive={modalActive}
         setModalActive={setModalActive}
         updateData={updateData}
       />
       <EditBlock
         tasks={data.phones}
-        blockTitle="phones"
+        blockTitle="Phones"
         blockPrefix="+"
         modalActive={modalActive}
         setModalActive={setModalActive}
@@ -192,16 +192,16 @@ export function EditPage({
       />
       <EditBlock
         tasks={data.mails}
-        blockTitle="mails"
-        blockPrefix=""
+        blockTitle="Mails"
+        blockPrefix="Mail"
         modalActive={modalActive}
         setModalActive={setModalActive}
         updateData={updateData}
       />
       <EditBlock
         tasks={data.wallets}
-        blockTitle="wallets"
-        blockPrefix=""
+        blockTitle="Wallets"
+        blockPrefix="Wallet"
         modalActive={modalActive}
         setModalActive={setModalActive}
         updateData={updateData}

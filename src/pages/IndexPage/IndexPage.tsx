@@ -66,7 +66,7 @@ export const IndexPage: FC = () => {
         setData(responseData)
       } else setData(defaultUserFormData)
     } catch (error) {
-      console.error(error)
+      setData(defaultUserFormData)
     }
   }
 
