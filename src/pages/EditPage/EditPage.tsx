@@ -70,10 +70,9 @@ export function EditPage({
       type === "about"
         ? { text: event.target.value, pinned: data.about?.pinned }
         : event.target.value
-
     updateData({ [type]: value })
   }
-
+  const [username_input, setUserName] = useState("@username")
   return (
     <div className="edit_page">
       <div className="avatar_picking" onClick={handleButtonClick}>
@@ -120,6 +119,7 @@ export function EditPage({
             className="input_bar"
             type="text"
             placeholder="@username"
+            value={username_input}
             onChange={(event) => handleChange("username", event)}
           />
         </div>

@@ -71,10 +71,7 @@ function Task({
         <div className="item_edit_container">
           <div className="left_part" onClick={() => setModalActive(title + id)}>
             <div className="item_title">{title}</div>
-            <div className="item_url">
-              {blockPrefix}
-              {item}
-            </div>
+            <div className="item_url">{item}</div>
           </div>
           <div className="right_part">
             <svg
@@ -130,7 +127,7 @@ function Task({
           <input
             type="text"
             placeholder={blockPrefix}
-            value={blockPrefix + input1}
+            value={input1}
             onChange={(e) => {
               const userInput = e.target.value.slice(blockPrefix.length)
 

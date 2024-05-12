@@ -94,28 +94,64 @@ export function EditBlock({
           pinned: false
         }
         setTasks((prevState) => [...prevState, newTask])
-
         setInput("")
-        setInput1("")
+        if (blockTitle === "Phones") {
+          setInput1("+")
+        } else if (blockTitle === "Telegrams" || blockTitle === "Socials") {
+          setInput1("@")
+        } else {
+          setInput1("")
+        }
       }
     }
   }, [modalActive])
 
-  const renderBlockContent = () => {
-    if (!tasks1.length) {
+  useEffect(() => {
+    if (blockTitle === "Phones") {
+      setInput1("+")
+    } else if (blockTitle === "Telegrams" || blockTitle === "Socials") {
+      setInput1("@")
+    } else {
+      setInput1("")
+    }
+  }, [blockTitle])
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value
+    if (blockTitle === "Phones") {
+      if (/^[0-9+]*$/.test(value) && value.length <= 15 && value.length > 1) {
+        setInput1(value)
+      }
+    }
+    if (blockTitle === "Telegrams" || blockTitle === "Socials") {
+      if (!/\s/.test(value) && value.length > 1) {
+        setInput1(value)
+      }
+    } else {
+      if (!/\s/.test(value)) {
+        setInput1(value)
+      }
+    }
+  }
+
+  const renderAddButton = () => {
+    if (tasks1.length !== 5 || tasks1.length < 5) {
       return (
-        <div className="info_block">
-          <div
-            className="item_container"
-            onClick={() => setModalActive(blockTitle)}
-          >
-            <div className="add_button">
-              <div className="plus">+</div>
-              <FormattedMessage id="add" />
-            </div>
+        <div
+          className="item_container"
+          onClick={() => setModalActive(blockTitle)}
+        >
+          <div className="add_button">
+            <div className="plus">+</div>
+            <FormattedMessage id="add" />
           </div>
         </div>
       )
+    }
+  }
+  const renderBlockContent = () => {
+    if (!tasks1.length) {
+      return <div className="info_block">{renderAddButton()}</div>
     }
 
     return (
@@ -144,15 +180,7 @@ export function EditBlock({
                 setModalActive={setModalActive}
               />
             ))}
-            <div
-              className="item_container"
-              onClick={() => setModalActive(blockTitle)}
-            >
-              <div className="add_button">
-                <div className="plus">+</div>
-                <FormattedMessage id="add" />
-              </div>
-            </div>
+            {renderAddButton()}
           </SortableContext>
         </div>
       </DndContext>
@@ -198,7 +226,7 @@ export function EditBlock({
             type="text"
             placeholder={blockPrefix}
             value={input1}
-            onChange={(e) => setInput1(e.target.value)}
+            onChange={handleChange}
           />
         </div>
         <div className="modal_sub_text">
