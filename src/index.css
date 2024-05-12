@@ -6,9 +6,11 @@ body {
     background: var(--background-color);
     margin: 0;
 }
-:root{
+
+:root {
     --link-text-color: #007AFF;
 }
+
 @media (prefers-color-scheme: light) {
     :root {
         --line-opacity: 15%;
@@ -53,9 +55,4 @@ pre {
 @font-face {
     font-family: 'SF Pro';
     src: url('./fonts/SFPRODISPLAYREGULAR.OTF') format('truetype');;
-}
-
-@font-face {
-    font-family: 'SF Pro Rounded';
-    src: url('./fonts/SF-Pro-Rounded-Regular.otf') format('truetype');;
 }

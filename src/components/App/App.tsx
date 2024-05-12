@@ -20,7 +20,7 @@ export const App: FC = () => {
 
   useBackButtonIntegration(tmaNavigator, backButton)
 
-  const locale = navigator.language === 'ru' ? LOCALES.RUSSIAN : LOCALES.ENGLISH
+  const locale = navigator.language === "ru" ? LOCALES.RUSSIAN : LOCALES.ENGLISH
 
   return (
     <TokenProvider>

@@ -1,5 +1,4 @@
 import { DisplayGate, SDKProvider } from "@tma.js/sdk-react"
-import { TonConnectUIProvider } from "@tonconnect/ui-react"
 import { type FC } from "react"
 
 import { App } from "~/components/App/App.tsx"
@@ -23,19 +22,16 @@ const Loading: FC = () => {
 
 export const Root: FC = () => {
   return (
-    <TonConnectUIProvider
-      manifestUrl="https://petition.notmeme.org/tonconnect-manifest.json">
-      <SDKProvider
-        options={{
-          acceptCustomStyles: true,
-          cssVars: true,
-          complete: true
-        }}
-      >
-        <DisplayGate error={Err} loading={Loading} initial={Loading}>
-          <App />
-        </DisplayGate>
-      </SDKProvider>
-    </TonConnectUIProvider>
+    <SDKProvider
+      options={{
+        acceptCustomStyles: true,
+        cssVars: true,
+        complete: true
+      }}
+    >
+      <DisplayGate error={Err} loading={Loading} initial={Loading}>
+        <App />
+      </DisplayGate>
+    </SDKProvider>
   )
 }

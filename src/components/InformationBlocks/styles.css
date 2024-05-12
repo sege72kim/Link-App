@@ -1,42 +1,48 @@
-.info_block_container{
+.info_block_container {
     margin: 0 10px;
     margin-top: 20px;
 }
-.info_block_container_edit{
+
+.info_block_container_edit {
     margin: 0 10px;
     margin-top: 30px;
 }
-.block_title{
-font-size: 13px;
-font-weight: 400;
-line-height: 16px;
-letter-spacing: -0.07999999821186066px;
-text-align: left;
-text-transform: uppercase;
-color: var(--sub-text-color);
-margin-left: 16px;
-margin-bottom: 5px;
+
+.block_title {
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 16px;
+    letter-spacing: -0.07999999821186066px;
+    text-align: left;
+    text-transform: uppercase;
+    color: var(--sub-text-color);
+    margin-left: 16px;
+    margin-bottom: 5px;
 }
-.info_block{
+
+.info_block {
     background-color: var(--background-color-2);
     border-radius: 12px;
     overflow: hidden;
 }
-.item_title{
-font-size: 15px;
-font-weight: 400;
-line-height: 20px;
-letter-spacing: -0.23000000417232513px;
-text-align: left;
+
+.item_title {
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: -0.23000000417232513px;
+    text-align: left;
 }
-.item_url{
-font-size: 17px;
-font-weight: 400;
-line-height: 22px;
-letter-spacing: -0.4000000059604645px;
-text-align: left;
-color: var(--link-text-color)
+
+.item_url {
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 22px;
+    letter-spacing: -0.4000000059604645px;
+    text-align: left;
+    color: var(--link-text-color)
 }
+
 .item_container {
 
     padding: 12px 16px;
@@ -52,14 +58,16 @@ color: var(--link-text-color)
     height: 0.5px;
     background-color: var(--line-fill);
 }
-.add_button{
-    display:flex;
+
+.add_button {
+    display: flex;
     column-gap: 10px;
     align-items: center;
     padding: 4px 0;
     cursor: pointer;
 }
-.plus{
+
+.plus {
     width: 20px;
     height: 20px;
     display: flex;
@@ -69,16 +77,18 @@ color: var(--link-text-color)
     background-color: #31D158;
     font-size: 17px;
     font-weight: 400;
-    color:var(--background-color)
+    color: var(--background-color)
 }
-.add{
-font-size: 15px;
-font-weight: 490;
-line-height: 22px;
-letter-spacing: -0.4000000059604645px;
-text-align: left;
+
+.add {
+    font-size: 15px;
+    font-weight: 490;
+    line-height: 22px;
+    letter-spacing: -0.4000000059604645px;
+    text-align: left;
 }
-.info_subscription_2{
+
+.info_subscription_2 {
     margin-left: 15px;
     font-size: 13px;
     font-weight: 400;
@@ -87,36 +97,42 @@ text-align: left;
     text-align: left;
     margin-top: 5px;
 }
-.info_subscription_2 div{
+
+.info_subscription_2 div {
     width: 280px;
     margin-bottom: 10px;
     color: var(--sub-text-color)
 }
-.modal_top{
+
+.modal_top {
     margin-top: 10px;
     width: 100%;
     display: flex;
     justify-content: center;
 }
-.modal_top div{
-margin: 0 auto;
+
+.modal_top div {
+    margin: 0 auto;
 }
-.modal_top_line{
+
+.modal_top_line {
     width: 36px;
     height: 4px;
     background-color: var(--line-fill);
     opacity: var(--line-opacity);
     border-radius: 5px;
 }
-.modal_top_text{
-font-size: 17px;
-font-weight: 590;
-line-height: 22px;
-letter-spacing: -0.4000000059604645px;
-text-align: center;
-padding-top: 5px;
+
+.modal_top_text {
+    font-size: 17px;
+    font-weight: 590;
+    line-height: 22px;
+    letter-spacing: -0.4000000059604645px;
+    text-align: center;
+    padding-top: 5px;
 }
-.modal_close{
+
+.modal_close {
     position: absolute;
     top: 12px;
     right: 12px;
@@ -129,19 +145,22 @@ padding-top: 5px;
     align-items: center;
     cursor: pointer;
 }
-.modal_close img{
+
+.modal_close img {
     width: 10px;
     height: 10px;
     opacity: 100%;
-    
+
 }
-.modal_input_container{
+
+.modal_input_container {
     background-color: var(--background-color-2);
     margin: 0 10px;
     margin-top: 40px;
     border-radius: 12px;
 }
-.modal_input_container input{
+
+.modal_input_container input {
     background-color: var(--background-color-2);
     margin: 0 10px;
     font-size: 17px;
@@ -154,7 +173,8 @@ padding-top: 5px;
     padding: 16px;
     color: var(--color)
 }
-.modal_sub_text{
+
+.modal_sub_text {
     width: 300px;
     margin-left: 25px;
     font-size: 13px;
@@ -165,6 +185,7 @@ padding-top: 5px;
     margin-top: 5px;
     color: var(--sub-text-color)
 }
+
 .fill_line_2 {
     margin: 0 auto;
     width: 90%;
@@ -172,19 +193,23 @@ padding-top: 5px;
     height: 0.5px;
     background-color: var(--line-fill);
 }
-.item_edit_container{
-    display:flex;
+
+.item_edit_container {
+    display: flex;
     align-items: center;
     justify-content: space-between;
 }
-.right_part{
+
+.right_part {
     column-gap: 13px;
     display: flex;
     align-items: center;
 }
-.sort_img{
+
+.sort_img {
     cursor: grab;
 }
+
 .pin_img {
     cursor: pointer;
 }

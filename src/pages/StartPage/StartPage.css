@@ -1,13 +1,16 @@
-.start_page{
+.start_page {
+    box-sizing: border-box;
     margin: 150px 0;
 }
-.start_page_img{
+
+.start_page_img {
     display: flex;
     width: 100px;
     height: 100px;
     margin: 0 auto;
 }
-.start_page_title{
+
+.start_page_title {
     font-weight: 590;
     font-size: 28px;
     line-height: 34px;
@@ -15,10 +18,10 @@
     text-align: center;
     margin-top: 35px;
 }
-.start_page_text{
+
+.start_page_text {
     width: 286px;
-    margin: 0 auto;
-    margin-top: 8px;
+    margin: 8px auto 0;
     color: var(--sub-text-color);
     font-weight: 400;
     font-size: 16px;

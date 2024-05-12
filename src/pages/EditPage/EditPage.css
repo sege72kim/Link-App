@@ -1,10 +1,13 @@
-.edit_page{
+.edit_page {
+    box-sizing: border-box;
     padding-bottom: 30px;
 }
-.avatar_picking{
+
+.avatar_picking {
     margin-top: 20px;
 }
-.avatar_edit{
+
+.avatar_edit {
     background-color: #4378FF1A;
     width: 120px;
     height: 120px;
@@ -13,27 +16,31 @@
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    margin:0 auto;
+    margin: 0 auto;
 }
-.new_avatar_button{
-color: var(--link-text-color);
-font-size: 17px;
-font-weight: 400;
-line-height: 22px;
-letter-spacing: -0.4000000059604645px;
-margin-top: 5px;
-text-align: center;
-cursor: pointer;
+
+.new_avatar_button {
+    color: var(--link-text-color);
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 22px;
+    letter-spacing: -0.4000000059604645px;
+    margin-top: 5px;
+    text-align: center;
+    cursor: pointer;
 }
-.info_container{
+
+.info_container {
     margin-top: 20px;
-    
+
 }
-.input_wrapper{
+
+.input_wrapper {
     display: flex;
-   
+
 }
-.input_bar{
+
+.input_bar {
     border: 0;
     width: 85%;
     margin: 0 auto;
@@ -48,18 +55,20 @@ cursor: pointer;
     text-align: left;
     color: var(--color)
 }
-.info_title{
+
+.info_title {
     font-size: 13px;
-font-weight: 400;
-line-height: 16px;
-letter-spacing: -0.07999999821186066px;
-text-align: left;
-text-transform: uppercase;
-color: var(--sub-text-color);
-margin-left: 25px;
-margin-bottom: 5px;
+    font-weight: 400;
+    line-height: 16px;
+    letter-spacing: -0.07999999821186066px;
+    text-align: left;
+    text-transform: uppercase;
+    color: var(--sub-text-color);
+    margin-left: 25px;
+    margin-bottom: 5px;
 }
-.info_subscription{
+
+.info_subscription {
     margin-left: 25px;
     font-size: 13px;
     font-weight: 400;
@@ -68,7 +77,8 @@ margin-bottom: 5px;
     text-align: left;
     margin-top: 5px;
 }
-.info_subscription div{
+
+.info_subscription div {
     width: 280px;
     margin-bottom: 10px;
     color: var(--sub-text-color)

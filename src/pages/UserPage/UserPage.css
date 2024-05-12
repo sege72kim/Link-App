@@ -1,42 +1,48 @@
-.user_page{
+.user_page {
+    box-sizing: border-box;
     padding-bottom: 30px;
 }
-.user_page_img{
-width: 100%;
-height: 430px;
-color: white;
-display: flex;
-align-items: end;
+
+.user_page_img {
+    width: 100%;
+    height: 430px;
+    color: white;
+    display: flex;
+    align-items: end;
 }
-.user_names_block{
-margin-bottom: 16px;
-margin-left: 16px;
+
+.user_names_block {
+    margin-bottom: 16px;
+    margin-left: 16px;
 }
-.nickname{
-font-size: 28px;
-font-weight: 700;
-line-height: 34px;
+
+.nickname {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 34px;
 }
-.user_name{
-font-size: 17px;
-font-weight: 400;
-line-height: 22px;
+
+.user_name {
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 22px;
 }
-.edit_button{
+
+.edit_button {
     display: flex;
     justify-content: center;
-    align-items: center;  
+    align-items: center;
     margin: 0 auto;
     border-radius: 10px;
     height: 50px;
     width: calc(100% - 20px);
     margin-top: 10px;
     background-color: var(--background-color-2);
-font-size: 17px;
-font-weight: 590;
-line-height: 22px;
-letter-spacing: -0.4000000059604645px;
-text-align: center;
-color: var(--link-text-color);
-text-decoration: none;
+    font-size: 17px;
+    font-weight: 590;
+    line-height: 22px;
+    letter-spacing: -0.4000000059604645px;
+    text-align: center;
+    color: var(--link-text-color);
+    text-decoration: none;
 }

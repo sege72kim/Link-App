@@ -1,195 +1,182 @@
-import { useState, useEffect, useRef } from "react"
 import {
+  closestCorners,
   DndContext,
   KeyboardSensor,
   PointerSensor,
   useSensor,
-  useSensors,
-  closestCorners
+  useSensors
 } from "@dnd-kit/core"
 import {
   arrayMove,
   SortableContext,
-  verticalListSortingStrategy,
-  sortableKeyboardCoordinates
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy
 } from "@dnd-kit/sortable"
+import React, { useEffect, useRef, useState } from "react"
+import { FormattedMessage, useIntl } from "react-intl"
+
+import type { BlockProps } from "~/types/block.ts"
+import type { UserFormItem } from "~/types/formData.ts"
+
 import Modal from "../AddingModal/Modal"
-import Task from "./Task"
+
 import "./styles.css"
-import { FormattedMessage } from "react-intl"
 
-interface Item {
-  id: number
-  title: string
-  url: string
-}
+import Task from "./Task"
 
-interface Props {
-  tasks: Item[]
-  blocktitle: string
-  blocksub: string
-  handlePinClick: (
-    id: number,
-    title: string,
-    url: string,
-    pinArray: { id: number; title: string; url: string }[]
-  ) => void
-  pinArray: { id: number; title: string; url: string }[]
-  prefixprop: string
-}
-
-export const EditBlock: React.FC<Props> = ({
+export function EditBlock({
   tasks,
-  blocktitle,
-  blocksub,
-  handlePinClick,
-  pinArray,
-  prefixprop
-}) => {
-  const [tasks1, setTasks] = useState<Item[]>(tasks)
-  const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates
-    })
-  )
-
-  const getTaskPos = (id: number) => tasks1.findIndex((item) => item.id === id)
-
-  const handleDragEnd = (event: any) => {
-    const { active, over } = event
-
-    if (active.id === over.id) return
-
-    setTasks((tasks) => {
-      const originalPos = getTaskPos(active.id)
-      const newPos = getTaskPos(over.id)
-
-      return arrayMove(tasks, originalPos, newPos)
-    })
-  }
-
+  blockTitle,
+  blockPrefix,
+  updateData,
+  modalActive,
+  setModalActive
+}: BlockProps & {
+  modalActive: string
+  setModalActive: React.Dispatch<React.SetStateAction<string>>
+}) {
+  const intl = useIntl()
+  const [tasks1, setTasks] = useState<UserFormItem[]>(tasks)
   const blockRef = useRef<HTMLDivElement>(null)
 
-  const addTask = (title: string, url: string): void => {
-    setTasks((tasks1: Item[]) => [
-      ...tasks1,
-      { id: tasks.length + 1, title, url }
-    ])
-  }
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
+  )
 
   useEffect(() => {
     const blockElement = blockRef.current
+    const preventScroll = (event: TouchEvent) => event.preventDefault()
 
-    const preventScroll = (event: TouchEvent) => {
-      event.preventDefault()
-    }
+    blockElement?.addEventListener("touchmove", preventScroll, {
+      passive: false
+    })
 
-    if (blockElement) {
-      blockElement.addEventListener("touchmove", preventScroll, {
-        passive: false
-      })
-
-      return () => {
-        blockElement.removeEventListener("touchmove", preventScroll)
-      }
-    }
+    return () => blockElement?.removeEventListener("touchmove", preventScroll)
   }, [])
 
-  const [modalActive, setModalActive] = useState(false)
+  useEffect(() => {
+    if (updateData) {
+      updateData({ [blockTitle]: tasks1 })
+    }
+  }, [tasks1])
 
-  const handleClick322 = () => {
-    console.log({ tasks1 })
+  const updateTaskData = (value: UserFormItem) => {
+    if (updateData) {
+      updateData({
+        [blockTitle]: tasks1.map((item) =>
+          item.id === value.id ? value : item
+        )
+      })
+    }
+  }
+
+  const handleDragEnd = ({ active, over }: any) => {
+    if (active.id !== over.id) {
+      setTasks((prevState) => {
+        const originalPos = prevState.findIndex((item) => item.id === active.id)
+        const newPos = prevState.findIndex((item) => item.id === over.id)
+        return arrayMove(prevState, originalPos, newPos)
+      })
+    }
   }
 
   const [input, setInput] = useState("")
-  const [input2, setInput2] = useState("")
+  const [input1, setInput1] = useState("")
 
-  const handleSubmit = () => {
-    if (!input || !input2) return
+  useEffect(() => {
+    if (!modalActive) {
+      if (input && input1) {
+        const newTask = {
+          id: tasks1.length ? tasks1[tasks1.length - 1].id + 1 : 0,
+          title: input,
+          item: input1,
+          pinned: false
+        }
+        setTasks((prevState) => [...prevState, newTask])
 
-    addTask(input, input2)
+        setInput("")
+        setInput1("")
+      }
+    }
+  }, [modalActive])
 
-    setInput("")
-    setInput2("")
-  }
-
-  if (!tasks1 || tasks1.length === 0) {
-    return (
-      <div className="info_block_container_edit">
-        <div className="block_title">{blocktitle}</div>
+  const renderBlockContent = () => {
+    if (!tasks1.length) {
+      return (
         <div className="info_block">
-          <div className="item_container">
+          <div
+            className="item_container"
+            onClick={() => setModalActive(blockTitle)}
+          >
             <div className="add_button">
               <div className="plus">+</div>
-              <div className="add">
-                <FormattedMessage id="add" />
-              </div>
+              <FormattedMessage id="add" />
             </div>
           </div>
         </div>
-        <div className="info_subscription_2">
-          <div>{blocksub}</div>
-        </div>
-      </div>
+      )
+    }
+
+    return (
+      <DndContext
+        sensors={sensors}
+        onDragEnd={handleDragEnd}
+        collisionDetection={closestCorners}
+      >
+        <SortableContext items={tasks1} strategy={verticalListSortingStrategy}>
+          {tasks1.map((item) => (
+            <Task
+              key={item.id}
+              id={item.id}
+              title={item.title}
+              item={item.item}
+              blockSubTitle={intl.formatMessage({
+                id: `sub_block_${blockTitle}`
+              })}
+              blockPrefix={blockPrefix}
+              updateTaskData={updateTaskData}
+              modalActive={modalActive}
+              setModalActive={setModalActive}
+            />
+          ))}
+          <div
+            className="item_container"
+            onClick={() => setModalActive(blockTitle)}
+          >
+            <div className="add_button">
+              <div className="plus">+</div>
+              <FormattedMessage id="add" />
+            </div>
+          </div>
+        </SortableContext>
+      </DndContext>
     )
   }
 
-  if (tasks1.length < 5 && tasks1.length > 0) {
-    return (
-      <div className="info_block_container_edit">
-        <div className="block_title">{blocktitle}</div>
-        <DndContext
-          sensors={sensors}
-          onDragEnd={handleDragEnd}
-          collisionDetection={closestCorners}
-        >
-          <div className="info_block" ref={blockRef}>
-            <SortableContext
-              items={tasks}
-              strategy={verticalListSortingStrategy}
-            >
-              {tasks1.map((item) => (
-                <div>
-                  <Task
-                    id={item.id}
-                    title={item.title}
-                    url={item.url}
-                    key={item.id}
-                    onPinClick={handlePinClick}
-                    pinArray={pinArray}
-                    blocksub={blocksub}
-                    tasks={tasks1}
-                    setTasks={setTasks}
-                    type={blocktitle}
-                    prefixprop={prefixprop}
-                  />
-                </div>
-              ))}
-            </SortableContext>
-            <div className="item_container">
-              <div className="add_button" onClick={() => setModalActive(true)}>
-                <div className="plus">+</div>
-                <div className="add">
-                  <FormattedMessage id="add" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </DndContext>
+  return (
+    <div className="info_block_container_edit">
+      <div className="block_title">
+        {intl.formatMessage({ id: `block_${blockTitle}` })}
+      </div>
+      {renderBlockContent()}
+      <div className="info_subscription_2">
+        <div>{intl.formatMessage({ id: `sub_block_${blockTitle}` })}</div>
+      </div>
+      <Modal active={modalActive === blockTitle} setActive={setModalActive}>
+        <div className="modal_top">
+          <div className="modal_top_line" />
+          <div className="modal_top_text">{blockTitle}</div>
+          <div
+            className="modal_close"
+            onClick={() => {
+              setInput("")
+              setInput1("")
 
-        <div className="info_subscription_2">
-          <div>{blocksub}</div>
-        </div>
-        <Modal active={modalActive} setActive={setModalActive}>
-          <div className="modal_top">
-            <div>
-              <div className="modal_top_line" />
-              <div className="modal_top_text">{blocktitle}</div>
-            </div>
-          </div>
-          <div className="modal_close" onClick={() => setModalActive(false)}>
-            <img src="./images/cross.svg" alt="+" />
+              setModalActive("false")
+            }}
+          >
+            <img src="/images/cross.svg" alt="Close" />
           </div>
           <div className="modal_input_container">
             <input
@@ -198,57 +185,15 @@ export const EditBlock: React.FC<Props> = ({
               value={input}
               onChange={(e) => setInput(e.target.value)}
             />
-            <div className="fill_line_2" />
             <input
               type="text"
-              placeholder="t.me/"
-              value={input2}
-              onChange={(e) => setInput2(e.target.value)}
+              placeholder={blockPrefix}
+              value={input1}
+              onChange={(e) => setInput1(e.target.value)}
             />
           </div>
-          <div className="modal_sub_text">{blocksub}</div>
-          <button onClick={handleSubmit} className="button">
-            Add
-          </button>
-        </Modal>
-        <button onClick={handleClick322}>222</button>
-      </div>
-    )
-  } else {
-    return (
-      <div className="info_block_container_edit">
-        <div className="block_title">{blocktitle}</div>
-        <DndContext
-          onDragEnd={handleDragEnd}
-          collisionDetection={closestCorners}
-        >
-          <div className="info_block">
-            <SortableContext
-              items={tasks}
-              strategy={verticalListSortingStrategy}
-            >
-              {tasks1.map((item) => (
-                <Task
-                  id={item.id}
-                  title={item.title}
-                  url={item.url}
-                  key={item.id}
-                  onPinClick={handlePinClick}
-                  pinArray={pinArray}
-                  blocksub={blocksub}
-                  tasks={tasks1}
-                  setTasks={setTasks}
-                  type={blocktitle}
-                  prefixprop={prefixprop}
-                />
-              ))}
-            </SortableContext>
-          </div>
-        </DndContext>
-        <div className="info_subscription_2">
-          <div>{blocksub}</div>
         </div>
-      </div>
-    )
-  }
+      </Modal>
+    </div>
+  )
 }

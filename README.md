@@ -103,7 +103,7 @@ is `is-awesome`, the value in the `homepage` field should be the following:
 
 ```json
 {
-    "homepage": "https://telegram-mini-apps.github.io/is-awesome"
+  "homepage": "https://telegram-mini-apps.github.io/is-awesome"
 }
 ```
 
@@ -111,8 +111,8 @@ And `vite.config.ts` should have this content:
 
 ```ts
 export default defineConfig({
-    base: '/is-awesome/',
-    // ...
+  base: '/is-awesome/',
+  // ...
 });
 ```
 

@@ -1,95 +1,79 @@
 import { useSortable } from "@dnd-kit/sortable"
 import { CSS } from "@dnd-kit/utilities"
+import React, { useEffect, useState } from "react"
+
+import type { UserFormItem } from "~/types/formData.ts"
+
+import Modal from "../AddingModal/Modal"
 
 import "./styles.css"
 
-import { useState, useEffect } from "react"
-import Modal from "../AddingModal/Modal"
-interface Task {
-  id: number
-  title: string
-  url: string
-}
-interface TaskProps {
-  id: number
-  title: string
-  url: string
-  blocksub: string
-  onPinClick: (
-    id: number,
-    title: string,
-    url: string,
-    pinArray: { id: number; title: string; url: string }[]
-  ) => void
-  pinArray: { id: number; title: string; url: string }[]
-  tasks: Task[] // добавляем тип для исходного массива задач
-  setTasks: React.Dispatch<React.SetStateAction<Task[]>>
-  type: string
-  prefixprop: string
+interface TaskProps extends UserFormItem {
+  blockSubTitle: string
+  blockPrefix: string
+  updateTaskData: (value: UserFormItem) => void
 }
 
-const Task: React.FC<TaskProps> = ({
+function Task({
   id,
+  item,
+  pinned,
   title,
-  url,
-  onPinClick,
-  pinArray,
-  blocksub,
-  tasks,
-  setTasks,
-  type,
-  prefixprop
-}) => {
+  blockSubTitle,
+  blockPrefix,
+  updateTaskData,
+  modalActive,
+  setModalActive
+}: TaskProps & {
+  modalActive: string
+  setModalActive: React.Dispatch<React.SetStateAction<string>>
+}) {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id })
 
-  const isPinned = pinArray.some(
-    (item) => item.title === title && item.url === url
-  )
-  const [isPinActive, setIsPinActive] = useState(isPinned)
+  const [input, setInput] = useState(title)
+  const [input1, setInput1] = useState(item)
 
   useEffect(() => {
-    setIsPinActive(isPinned)
-  }, [pinArray, isPinned])
+    if (!modalActive) {
+      if (input && input1) {
+        updateTaskData({
+          title: input,
+          item: input1,
+          pinned,
+          id
+        })
 
-  const togglePinColor = () => {
-    if (isPinActive) {
-      const updatedPins = pinArray.filter(
-        (item) => !(item.title === title && item.url === url)
-      )
-      onPinClick(id, title, url, updatedPins)
-    } else {
-      setIsPinActive((prev) => !prev)
-      onPinClick(id, title, url, [...pinArray, { id, title, url }])
-    }
-  }
-  const [input, setInput] = useState(title)
-  const [input2, setInput2] = useState(url)
-  const handleSubmit = () => {
-    const updatedTasks = tasks.map((task) => {
-      if (task.id === id) {
-        return { ...task, title: input, url: input2 }
+        setInput("")
+        setInput1("")
       }
-      return task
-    })
-    setTasks(updatedTasks)
-  }
-  const pinColor = isPinActive ? "blue" : "#707579"
+    }
+  }, [modalActive])
 
+  const togglePin = () => {
+    updateTaskData({
+      title: input,
+      item: input1,
+      pinned: !pinned,
+      id
+    })
+  }
+
+  const pinColor = pinned ? "blue" : "#707579"
   const style: React.CSSProperties = {
     transition: transition || undefined,
     transform: transform ? CSS.Transform.toString(transform) : undefined
   }
-  const [modalActive, setModalActive] = useState(false)
+
   return (
     <div ref={setNodeRef} style={style} {...attributes} className="task">
       <div className="item_container">
         <div className="item_edit_container">
-          <div className="left_part" onClick={() => setModalActive(true)}>
+          <div className="left_part" onClick={() => setModalActive(title + id)}>
             <div className="item_title">{title}</div>
             <div className="item_url">
-              {prefixprop}
-              {url}
+              {blockPrefix}
+              {item}
             </div>
           </div>
           <div className="right_part">
@@ -99,7 +83,7 @@ const Task: React.FC<TaskProps> = ({
               viewBox="0 0 20 20"
               xmlns="http://www.w3.org/2000/svg"
               className="pin_img"
-              onClick={togglePinColor}
+              onClick={togglePin}
             >
               <path
                 d="M8.56927 5.88209L14.1179 11.4307L12.6564 18.3735C12.4379 19.4114 11.1559 19.8123 10.4173 19.0737L0.926329 9.58274C0.187716 8.84413 0.588615 7.56212 1.62653 7.34362L8.56927 5.88209Z"
@@ -116,7 +100,7 @@ const Task: React.FC<TaskProps> = ({
             </svg>
 
             <img
-              src="./images/sort.svg"
+              src="/images/sort.svg"
               alt=""
               {...listeners}
               className="sort_img"
@@ -125,15 +109,15 @@ const Task: React.FC<TaskProps> = ({
         </div>
         <div className="fill_line" />
       </div>
-      <Modal active={modalActive} setActive={setModalActive}>
+      <Modal active={modalActive === title + id} setActive={setModalActive}>
         <div className="modal_top">
           <div>
             <div className="modal_top_line" />
-            <div className="modal_top_text">{type}</div>
+            <div className="modal_top_text">SDASDASDSA</div>
           </div>
         </div>
-        <div className="modal_close" onClick={() => setModalActive(false)}>
-          <img src="./images/cross.svg" alt="+" />
+        <div className="modal_close" onClick={() => setModalActive("")}>
+          <img src="/images/cross.svg" alt="+" />
         </div>
         <div className="modal_input_container">
           <input
@@ -145,18 +129,16 @@ const Task: React.FC<TaskProps> = ({
           <div className="fill_line_2" />
           <input
             type="text"
-            placeholder="t.me/"
-            value={prefixprop + input2}
+            placeholder={blockPrefix}
+            value={blockPrefix + input1}
             onChange={(e) => {
-              const userInput = e.target.value.slice(prefixprop.length)
-              setInput2(userInput)
+              const userInput = e.target.value.slice(blockPrefix.length)
+
+              setInput1(userInput)
             }}
           />
         </div>
-        <div className="modal_sub_text">{blocksub}</div>
-        <button onClick={handleSubmit} className="button">
-          Add
-        </button>
+        <div className="modal_sub_text">{blockSubTitle}</div>
       </Modal>
     </div>
   )

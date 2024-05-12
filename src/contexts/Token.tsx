@@ -1,16 +1,16 @@
 // eslint-disable-next-line no-duplicate-imports
-import type { ReactNode } from "react"
 import React, { createContext, useContext, useMemo, useState } from "react"
+import type { ReactNode } from "react"
 
 interface TokenContextType {
-  token: string | null;
-  setToken: (newToken: TokenContextType["token"]) => void;
+  token: string | null
+  setToken: (newToken: TokenContextType["token"]) => void
 }
 
 const TokenContext = createContext<TokenContextType | undefined>(undefined)
 
 interface TokenProviderProps {
-  children: ReactNode;
+  children: ReactNode
 }
 
 export const TokenProvider: React.FC<TokenProviderProps> = ({ children }) => {
@@ -20,16 +20,15 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({ children }) => {
     set(newToken)
   }
 
-  const value = useMemo(() => ({
-    token,
-    setToken
-  }), [token])
-
-  return (
-    <TokenContext.Provider value={value}>
-      {children}
-    </TokenContext.Provider>
+  const value = useMemo(
+    () => ({
+      token,
+      setToken
+    }),
+    [token]
   )
+
+  return <TokenContext.Provider value={value}>{children}</TokenContext.Provider>
 }
 
 export const useToken = () => {
