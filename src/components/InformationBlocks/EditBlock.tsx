@@ -135,7 +135,7 @@ export function EditBlock({
   }
 
   const renderAddButton = () => {
-    if (tasks1.length !== 5 || tasks1.length < 5) {
+    if ((tasks1.length !== 5 || tasks1.length < 5) && blockTitle !== "Main") {
       return (
         <div
           className="item_container"

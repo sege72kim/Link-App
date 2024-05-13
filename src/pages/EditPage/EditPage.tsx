@@ -57,7 +57,21 @@ export function EditPage({
         })
     }
   }
-
+  const pinnedItems = Object.values(data).reduce(
+    (accumulator, currentValue) => {
+      if (Array.isArray(currentValue)) {
+        const pinnedItems = currentValue.filter((item) => item.pinned)
+        accumulator.push(...pinnedItems)
+      } else if (
+        typeof currentValue === "object" &&
+        currentValue.pinned === true
+      ) {
+        accumulator.push(currentValue)
+      }
+      return accumulator
+    },
+    []
+  )
   const handleButtonClick = () => {
     if (inputRef.current) inputRef.current.click()
   }
@@ -216,6 +230,14 @@ export function EditPage({
           </div>
         </div>
       </div>
+      <EditBlock
+        tasks={pinnedItems}
+        blockTitle="Main"
+        blockPrefix="Main"
+        modalActive={modalActive}
+        setModalActive={setModalActive}
+        updateData={updateData}
+      />
       <EditBlock
         tasks={data.telegrams}
         blockTitle="Telegrams"
