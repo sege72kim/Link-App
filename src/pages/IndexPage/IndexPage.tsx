@@ -66,77 +66,79 @@ export const IndexPage: FC = () => {
         setData(responseData)
       } else setData(defaultUserFormData)
     } catch (error) {
-      setData(defaultUserFormData)
-      // setData({
-      //   userId: 23,
-      //   image: "./images/camera.svg",
-      //   name: "string",
-      //   username: "string",
-      //   about: {
-      //     text: "string3333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333",
-      //     pinned: true
-      //   },
-      //   telegrams: [
-      //     {
-      //       id: 1,
-      //       title: "tring",
-      //       item: "string",
-      //       pinned: true
-      //     },
-      //     {
-      //       id: 2,
-      //       title: "tring",
-      //       item: "string",
-      //       pinned: true
-      //     },
-      //     {
-      //       id: 3,
-      //       title: "tring",
-      //       item: "string",
-      //       pinned: true
-      //     }
-      //   ],
-      //   socials: [
-      //     {
-      //       id: 1,
-      //       title: "tring",
-      //       item: "string",
-      //       pinned: true
-      //     },
-      //     {
-      //       id: 2,
-      //       title: "tring",
-      //       item: "string",
-      //       pinned: true
-      //     },
-      //     {
-      //       id: 3,
-      //       title: "tring",
-      //       item: "string",
-      //       pinned: true
-      //     }
-      //   ],
-      //   links: [
-      //     {
-      //       id: 1,
-      //       title: "tring",
-      //       item: "string",
-      //       pinned: true
-      //     },
-      //     {
-      //       id: 2,
-      //       title: "tring",
-      //       item: "string",
-      //       pinned: true
-      //     },
-      //     {
-      //       id: 3,
-      //       title: "tring",
-      //       item: "string",
-      //       pinned: true
-      //     }
-      //   ]
-      // })
+      setData({
+        userId: 23,
+        image: "./images/camera.svg",
+        name: "string",
+        username: "string",
+        about: {
+          text: "string3333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333",
+          pinned: true
+        },
+        telegrams: [
+          {
+            id: 1,
+            title: "tring",
+            item: "string",
+            pinned: true
+          },
+          {
+            id: 2,
+            title: "tring",
+            item: "string",
+            pinned: true
+          },
+          {
+            id: 3,
+            title: "tring",
+            item: "string",
+            pinned: true
+          }
+        ],
+        socials: [
+          {
+            id: 1,
+            title: "tring",
+            item: "string",
+            pinned: true
+          },
+          {
+            id: 2,
+            title: "tring",
+            item: "string",
+            pinned: true
+          },
+          {
+            id: 3,
+            title: "tring",
+            item: "string",
+            pinned: true
+          }
+        ],
+        links: [
+          {
+            id: 1,
+            title: "tring",
+            item: "string",
+            pinned: true
+          },
+          {
+            id: 2,
+            title: "tring",
+            item: "string",
+            pinned: true
+          },
+          {
+            id: 3,
+            title: "tring",
+            item: "string",
+            pinned: true
+          }
+        ],
+        phones: [],
+        mails: [],
+        wallets: []
+      })
     }
   }
 

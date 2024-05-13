@@ -4,6 +4,7 @@ import { InfoBlock } from "~/components/InformationBlocks/InfoBlock"
 import type { UserFormData } from "~/types/formData.ts"
 
 import "./UserPage.css"
+import { AboutBlock } from "~/components/InformationBlocks/AboutBlock"
 
 interface Props {
   data: UserFormData
@@ -52,14 +53,14 @@ export function UserPage({ isEdit, setIsEdit, data, isOwner }: Props) {
           <FormattedMessage id="edit" />
         </div>
       )}
-      <InfoBlock tasks={pinnedItems} blockTitle="Main" />
-      <InfoBlock tasks={data.about} blockTitle="About" />
-      <InfoBlock tasks={data.telegrams} blockTitle="Telegrams" />
-      <InfoBlock tasks={data.socials} blockTitle="Socials" />
-      <InfoBlock tasks={data.links} blockTitle="Links" />
-      <InfoBlock tasks={data.phones} blockTitle="Phones" />
-      <InfoBlock tasks={data.mails} blockTitle="Mails" />
-      <InfoBlock tasks={data.wallets} blockTitle="Wallets" />
+      <InfoBlock tasks={pinnedItems} blockTitle="Main" blockPrefix="" />
+      <AboutBlock text={data.about.text} pinned={data.about.pinned} />
+      <InfoBlock tasks={data.telegrams} blockTitle="Telegrams" blockPrefix="" />
+      <InfoBlock tasks={data.socials} blockTitle="Socials" blockPrefix="" />
+      <InfoBlock tasks={data.links} blockTitle="Links" blockPrefix="" />
+      <InfoBlock tasks={data.phones} blockTitle="Phones" blockPrefix="" />
+      <InfoBlock tasks={data.mails} blockTitle="Mails" blockPrefix="" />
+      <InfoBlock tasks={data.wallets} blockTitle="Wallets" blockPrefix="" />
       <button onClick={checkFunc}>222</button>
     </div>
   )

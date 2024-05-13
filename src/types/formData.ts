@@ -3,6 +3,7 @@ export interface UserFormItem {
   title: string
   item: string
   pinned?: boolean
+  text?: string
 }
 
 export interface UserFormData {

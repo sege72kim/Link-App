@@ -8,20 +8,6 @@ export function InfoBlock({ tasks, blockTitle }: BlockProps) {
   const intl = useIntl()
 
   if (!tasks || tasks.length === 0) return null
-  if (blockTitle === "About") {
-    return (
-      <div className="info_block_container">
-        <div className="block_title">
-          {intl.formatMessage({ id: `block_${blockTitle}` })}
-        </div>
-        <div className="info_block">
-          <div className="item_container">
-            <div className="item_title">{tasks.text}</div>
-          </div>
-        </div>
-      </div>
-    )
-  }
   if (blockTitle === "Main") {
     return (
       <div className="info_block_container">
