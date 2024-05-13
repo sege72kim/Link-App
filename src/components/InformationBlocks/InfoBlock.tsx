@@ -8,7 +8,7 @@ export function InfoBlock({ tasks, blockTitle }: BlockProps) {
   const intl = useIntl()
 
   if (!tasks || tasks.length === 0) return null
-  if (blockTitle === "Main") {
+  if (blockTitle === "main") {
     return (
       <div className="info_block_container">
         <div className="block_title">

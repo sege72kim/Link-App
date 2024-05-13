@@ -71,6 +71,10 @@ export function EditBlock({
     }
   }
 
+  const deleteTask = (taskId: number) => {
+    setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId))
+  }
+
   const handleDragEnd = ({ active, over }: any) => {
     if (active.id !== over.id) {
       setTasks((prevState) => {
@@ -95,9 +99,9 @@ export function EditBlock({
         }
         setTasks((prevState) => [...prevState, newTask])
         setInput("")
-        if (blockTitle === "Phones") {
+        if (blockTitle === "phones") {
           setInput1("+")
-        } else if (blockTitle === "Telegrams" || blockTitle === "Socials") {
+        } else if (blockTitle === "telegrams" || blockTitle === "socials") {
           setInput1("@")
         } else {
           setInput1("")
@@ -107,9 +111,9 @@ export function EditBlock({
   }, [modalActive])
 
   useEffect(() => {
-    if (blockTitle === "Phones") {
+    if (blockTitle === "phones") {
       setInput1("+")
-    } else if (blockTitle === "Telegrams" || blockTitle === "Socials") {
+    } else if (blockTitle === "telegrams" || blockTitle === "socials") {
       setInput1("@")
     } else {
       setInput1("")
@@ -118,13 +122,12 @@ export function EditBlock({
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value
-    if (blockTitle === "Phones") {
-      if (/^[0-9+]*$/.test(value) && value.length <= 15 && value.length > 1) {
+    if (blockTitle === "phones") {
+      if (/^[0-9+]*$/.test(value) && value.length <= 15 && value.length >= 1) {
         setInput1(value)
       }
-    }
-    if (blockTitle === "Telegrams" || blockTitle === "Socials") {
-      if (!/\s/.test(value) && value.length > 1) {
+    } else if (blockTitle === "telegrams" || blockTitle === "socials") {
+      if (!/\s/.test(value) && value.length >= 1) {
         setInput1(value)
       }
     } else {
@@ -135,7 +138,7 @@ export function EditBlock({
   }
 
   const renderAddButton = () => {
-    if ((tasks1.length !== 5 || tasks1.length < 5) && blockTitle !== "Main") {
+    if ((tasks1.length !== 5 || tasks1.length < 5) && blockTitle !== "main") {
       return (
         <div
           className="item_container"
@@ -174,8 +177,10 @@ export function EditBlock({
                 blockSubTitle={intl.formatMessage({
                   id: `sub_block_${blockTitle}`
                 })}
+                blockTitle={blockTitle}
                 blockPrefix={blockPrefix}
                 updateTaskData={updateTaskData}
+                deleteTask={deleteTask} // Передаем функцию deleteTask
                 modalActive={modalActive}
                 setModalActive={setModalActive}
               />
@@ -186,53 +191,57 @@ export function EditBlock({
       </DndContext>
     )
   }
-
-  return (
-    <div className="info_block_container_edit">
-      <div className="block_title">
-        {intl.formatMessage({ id: `block_${blockTitle}` })}
-      </div>
-      {renderBlockContent()}
-      <div className="info_subscription_2">
-        <div>{intl.formatMessage({ id: `sub_block_${blockTitle}` })}</div>
-      </div>
-      <Modal active={modalActive === blockTitle} setActive={setModalActive}>
-        <div className="modal_top">
-          <div>
-            <div className="modal_top_line" />
-            <div className="modal_top_text">{blockTitle}</div>
+  if (blockTitle === "main" && !tasks1.length) {
+    return <></>
+  } else {
+    return (
+      <div className="info_block_container_edit" ref={blockRef}>
+        {" "}
+        <div className="block_title">
+          {intl.formatMessage({ id: `block_${blockTitle}` })}
+        </div>
+        {renderBlockContent()}
+        <div className="info_subscription_2">
+          <div>{intl.formatMessage({ id: `sub_block_${blockTitle}` })}</div>
+        </div>
+        <Modal active={modalActive === blockTitle} setActive={setModalActive}>
+          <div className="modal_top">
+            <div>
+              <div className="modal_top_line" />
+              <div className="modal_top_text">{blockTitle}</div>
+            </div>
           </div>
-        </div>
-        <div
-          className="modal_close"
-          onClick={() => {
-            setInput("")
-            setInput1("")
+          <div
+            className="modal_close"
+            onClick={() => {
+              setInput("")
+              setInput1("")
 
-            setModalActive("false")
-          }}
-        >
-          <img src="/images/cross.svg" alt="Close" />
-        </div>
-        <div className="modal_input_container">
-          <input
-            type="text"
-            placeholder="Title"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-          />
-          <div className="fill_line_2" />
-          <input
-            type="text"
-            placeholder={blockPrefix}
-            value={input1}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="modal_sub_text">
-          {intl.formatMessage({ id: `sub_block_${blockTitle}` })}
-        </div>
-      </Modal>
-    </div>
-  )
+              setModalActive("false")
+            }}
+          >
+            <img src="/images/cross.svg" alt="Close" />
+          </div>
+          <div className="modal_input_container">
+            <input
+              type="text"
+              placeholder="Title"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+            />
+            <div className="fill_line_2" />
+            <input
+              type="text"
+              placeholder={blockPrefix}
+              value={input1}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="modal_sub_text">
+            {intl.formatMessage({ id: `sub_block_${blockTitle}` })}
+          </div>
+        </Modal>
+      </div>
+    )
+  }
 }

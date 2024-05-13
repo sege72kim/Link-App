@@ -26,7 +26,8 @@ export interface UserFormData {
 // @ts-ignore
 export const defaultUserFormData: UserFormData = {
   about: {
-    text: ""
+    text: "",
+    pinned: false
   },
   telegrams: [],
   socials: [],

@@ -53,14 +53,14 @@ export function UserPage({ isEdit, setIsEdit, data, isOwner }: Props) {
           <FormattedMessage id="edit" />
         </div>
       )}
-      <InfoBlock tasks={pinnedItems} blockTitle="Main" blockPrefix="" />
+      <InfoBlock tasks={pinnedItems} blockTitle="main" blockPrefix="" />
       <AboutBlock text={data.about.text} pinned={data.about.pinned} />
-      <InfoBlock tasks={data.telegrams} blockTitle="Telegrams" blockPrefix="" />
-      <InfoBlock tasks={data.socials} blockTitle="Socials" blockPrefix="" />
-      <InfoBlock tasks={data.links} blockTitle="Links" blockPrefix="" />
-      <InfoBlock tasks={data.phones} blockTitle="Phones" blockPrefix="" />
-      <InfoBlock tasks={data.mails} blockTitle="Mails" blockPrefix="" />
-      <InfoBlock tasks={data.wallets} blockTitle="Wallets" blockPrefix="" />
+      <InfoBlock tasks={data.telegrams} blockTitle="telegrams" blockPrefix="" />
+      <InfoBlock tasks={data.socials} blockTitle="socials" blockPrefix="" />
+      <InfoBlock tasks={data.links} blockTitle="links" blockPrefix="" />
+      <InfoBlock tasks={data.phones} blockTitle="phones" blockPrefix="" />
+      <InfoBlock tasks={data.mails} blockTitle="mails" blockPrefix="" />
+      <InfoBlock tasks={data.wallets} blockTitle="wallets" blockPrefix="" />
       <button onClick={checkFunc}>222</button>
     </div>
   )

@@ -104,7 +104,7 @@
   }
   
   .pin_img_2 {
-    cursor: pointer
+    cursor: pointer;
     position: absolute;
     top: 15px;
     right: 20px;
@@ -112,7 +112,7 @@
   
   .over_text {
     position: absolute;
-    bottom: 15px;
+top: 90px;
     right: 20px;
 font-size: 13px;
 font-weight: 400;

@@ -1,17 +1,20 @@
 import { useSortable } from "@dnd-kit/sortable"
 import { CSS } from "@dnd-kit/utilities"
-import React, { useEffect, useState } from "react"
+import React, { ChangeEvent, useEffect, useState } from "react"
 
 import type { UserFormItem } from "~/types/formData.ts"
 
 import Modal from "../AddingModal/Modal"
 
 import "./styles.css"
+import { FormattedMessage } from "react-intl"
 
 interface TaskProps extends UserFormItem {
+  blockTitle: string
   blockSubTitle: string
   blockPrefix: string
   updateTaskData: (value: UserFormItem) => void
+  deleteTask: (taskId: number) => void
 }
 
 function Task({
@@ -19,8 +22,10 @@ function Task({
   item,
   pinned,
   title,
+  blockTitle,
   blockSubTitle,
   blockPrefix,
+  deleteTask,
   updateTaskData,
   modalActive,
   setModalActive
@@ -43,9 +48,6 @@ function Task({
           pinned,
           id
         })
-
-        setInput("")
-        setInput1("")
       }
     }
   }, [modalActive])
@@ -64,7 +66,35 @@ function Task({
     transition: transition || undefined,
     transform: transform ? CSS.Transform.toString(transform) : undefined
   }
+  const handleDelete = () => {
+    deleteTask(id) // Вызываем функцию deleteTask при нажатии на кнопку "Delete"
+  }
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value
+    let isValid = false
 
+    if (blockTitle === "phones") {
+      // Валидация для телефонных номеров
+      if (/^[0-9+]*$/.test(value) && value.length <= 15 && value.length >= 1) {
+        isValid = true
+      }
+    } else if (blockTitle === "telegrams" || blockTitle === "socials") {
+      // Валидация для Telegrams и Socials
+      if (/^[a-zA-Z_]*$/.test(value) && value.length >= 1) {
+        isValid = true
+      }
+    } else {
+      // Для других случаев, когда нет ограничений
+      if (!/\s/.test(value)) {
+        isValid = true
+      }
+    }
+
+    // Если введенное значение прошло проверку, обновляем состояние input1
+    if (isValid) {
+      setInput1(value)
+    }
+  }
   return (
     <div ref={setNodeRef} style={style} {...attributes} className="task">
       <div className="item_container">
@@ -128,14 +158,15 @@ function Task({
             type="text"
             placeholder={blockPrefix}
             value={input1}
-            onChange={(e) => {
-              const userInput = e.target.value.slice(blockPrefix.length)
-
-              setInput1(userInput)
-            }}
+            onChange={handleChange}
           />
         </div>
         <div className="modal_sub_text">{blockSubTitle}</div>
+        <div className="delete_button" onClick={handleDelete}>
+          <div>
+            <FormattedMessage id="delete" />
+          </div>
+        </div>
       </Modal>
     </div>
   )

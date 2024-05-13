@@ -9,5 +9,5 @@ export interface BlockProps {
 }
 export interface AboutProps {
   text: string
-  pinned: boolean
+  pinned?: boolean
 }
