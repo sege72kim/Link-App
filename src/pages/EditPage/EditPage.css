@@ -37,15 +37,16 @@
 
 .input_wrapper {
     display: flex;
-
+    padding: 15px 20px;
+    border-radius: 12px;
+    width: 85%;
+    margin: 0 auto;
+    background-color: var(--background-color-2);
 }
 
 .input_bar {
     border: 0;
-    width: 85%;
-    margin: 0 auto;
-    padding: 15px 20px;
-    border-radius: 12px;
+    width: 60%;
     outline: 0;
     background-color: var(--background-color-2);
     font-size: 17px;

@@ -12,7 +12,7 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy
 } from "@dnd-kit/sortable"
-import React, { useEffect, useRef, useState } from "react"
+import React, { ChangeEvent, useEffect, useRef, useState } from "react"
 import { FormattedMessage, useIntl } from "react-intl"
 
 import type { BlockProps } from "~/types/block.ts"

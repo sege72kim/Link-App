@@ -72,6 +72,7 @@ export function EditPage({
         : event.target.value
     updateData({ [type]: value })
   }
+  const [aboutText, setAboutText] = useState(data.about?.text || "")
   const [username_input, setUserName] = useState("@username")
   return (
     <div className="edit_page">
@@ -139,9 +140,12 @@ export function EditPage({
         <div className="input_wrapper">
           <textarea
             className="input_bar"
-            value={data.about?.text || ""}
-            onChange={(event) => handleChange("about", event)}
-            maxLength={100}
+            value={aboutText}
+            onChange={(event) => {
+              const newText = event.target.value
+              setAboutText(newText)
+              handleChange("about", event)
+            }}
             rows={4}
             style={{
               resize: "none",
@@ -156,6 +160,11 @@ export function EditPage({
           <div>
             <FormattedMessage id="sub_1" />
           </div>
+          {aboutText.length > 140 && (
+            <div style={{ color: "red" }}>
+              Превышение на {aboutText.length - 140} символов
+            </div>
+          )}
         </div>
       </div>
       <EditBlock
