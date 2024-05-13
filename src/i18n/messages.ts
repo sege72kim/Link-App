@@ -17,6 +17,11 @@ export const messages = {
     info_sub_1: "You can choose a username on Links App.",
     info_sub_2:
       "You can use a-z, 0-9 and underscores. Minimum length is 5 characters.",
+    info_sub_3: "Chekcing the username...",
+    info_sub_4: " available",
+    info_sub_5: "This username is not available.",
+    info_sub_6: "This username is already taken.",
+    info_sub_7: "The username must be at least 5 characters.",
     sub_1: "You can add a few lines of description. ",
     sub_block_Main:
       "You can pin up to 5 contacts to Main block. Main block will be shown at first.",
@@ -49,6 +54,11 @@ export const messages = {
     info_sub_1: "Вы можете выбрать имя пользователя в приложении Links.",
     info_sub_2:
       "Вы можете использовать a-z, 0-9 и подчеркивания. Минимальная длина - 5 символов.",
+    info_sub_3: "Проверка имени пользователя...",
+    info_sub_4: " доступно",
+    info_sub_5: "Это имя пользователя недоступно.",
+    info_sub_6: "Это имя пользователя уже занято.",
+    info_sub_7: "Имя пользователя должно содержать не менее 5 символов.",
     sub_1: "Вы можете добавить несколько строк описания.",
 
     sub_block_Main:

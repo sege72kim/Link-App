@@ -73,7 +73,7 @@ export function EditPage({
     updateData({ [type]: value })
   }
   const [aboutText, setAboutText] = useState(data.about?.text || "")
-  const [username_input, setUserName] = useState("@username")
+  const [userText, setUserText] = useState("")
   return (
     <div className="edit_page">
       <div className="avatar_picking" onClick={handleButtonClick}>
@@ -109,7 +109,9 @@ export function EditPage({
             className="input_bar"
             type="text"
             placeholder={intl.formatMessage({ id: "input_1" })}
-            onChange={(event) => handleChange("name", event)}
+            onChange={(event) => {
+              handleChange("name", event)
+            }}
           />
         </div>
       </div>
@@ -120,11 +122,15 @@ export function EditPage({
             className="input_bar"
             type="text"
             placeholder="@username"
-            value={username_input}
-            onChange={(event) => handleChange("username", event)}
+            onChange={(event) => {
+              const newUsername = event.target.value
+              setUserText(newUsername)
+              handleChange("username", newUserName)
+            }}
           />
         </div>
         <div className="info_subscription">
+          {/* До ввода */}
           <div>
             <FormattedMessage id="info_sub_1" />
           </div>
@@ -133,6 +139,27 @@ export function EditPage({
           </div>
           <div style={{ color: "var(--link-text-color)" }}>
             t.me/linksapp_bot/app?startApp=username
+          </div>
+          {/* После ввода  */}
+          <div style={{ color: "var(--link-text-color)" }}>
+            <FormattedMessage id="info_sub_3" />
+          </div>
+          {/* Доступно */}
+          <div style={{ color: "#31D158" }}>
+            {userText}
+            <FormattedMessage id="info_sub_4" />
+          </div>
+          {/* Недоступно имя */}
+          <div style={{ color: "red" }}>
+            <FormattedMessage id="info_sub_5" />
+          </div>
+          {/* Уже взято */}
+          <div style={{ color: "red" }}>
+            <FormattedMessage id="info_sub_6" />
+          </div>
+          {/* Не состоит из 5 */}
+          <div style={{ color: "red" }}>
+            <FormattedMessage id="info_sub_7" />
           </div>
         </div>
       </div>
@@ -155,16 +182,38 @@ export function EditPage({
             }}
             placeholder={intl.formatMessage({ id: "input_2" })}
           />
+          <div className="right_about_container">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+              className="pin_img_2"
+            >
+              <path
+                d="M8.56927 5.88209L14.1179 11.4307L12.6564 18.3735C12.4379 19.4114 11.1559 19.8123 10.4173 19.0737L0.926329 9.58274C0.187716 8.84413 0.588615 7.56212 1.62653 7.34362L8.56927 5.88209Z"
+                fill="black"
+              />
+              <path
+                d="M0 20L6.59657 15.253L4.74702 13.4034L0 20Z"
+                fill="black"
+              />
+              <path
+                d="M12.3951 0.565689C12.8773 -0.104447 13.8365 -0.194279 14.4079 0.377176L19.6228 5.59205C20.1943 6.16351 20.1044 7.12271 19.4343 7.60495L14.1179 11.4307L8.56927 5.88209L12.3951 0.565689Z"
+                fill="black"
+              />
+            </svg>
+            <div className="over_text">
+              {aboutText.length > 140 && (
+                <div style={{ color: "red" }}>-{aboutText.length - 140}</div>
+              )}
+            </div>
+          </div>
         </div>
         <div className="info_subscription">
           <div>
             <FormattedMessage id="sub_1" />
           </div>
-          {aboutText.length > 140 && (
-            <div style={{ color: "red" }}>
-              Превышение на {aboutText.length - 140} символов
-            </div>
-          )}
         </div>
       </div>
       <EditBlock
