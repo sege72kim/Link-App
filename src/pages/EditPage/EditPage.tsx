@@ -90,6 +90,8 @@ export function EditPage({
         setInput1(event.target.value)
         updateData({ [type]: value })
       }
+    } else {
+      updateData({ [type]: value })
     }
   }
 

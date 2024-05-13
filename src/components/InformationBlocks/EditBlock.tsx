@@ -123,15 +123,19 @@ export function EditBlock({
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value
     if (blockTitle === "phones") {
-      if (/^[0-9+]*$/.test(value) && value.length <= 15 && value.length >= 1) {
+      if (
+        /^[0-9+]*$/.test(event.target.value) &&
+        event.target.value.length <= 15 &&
+        event.target.value.length >= 1
+      ) {
         setInput1(value)
       }
     } else if (blockTitle === "telegrams" || blockTitle === "socials") {
-      if (!/\s/.test(value) && value.length >= 1) {
+      if (!/\s/.test(event.target.value) && event.target.value.length >= 1) {
         setInput1(value)
       }
     } else {
-      if (!/\s/.test(value)) {
+      if (!/\s/.test(event.target.value)) {
         setInput1(value)
       }
     }
@@ -234,7 +238,9 @@ export function EditBlock({
               type="text"
               placeholder={blockPrefix}
               value={input1}
-              onChange={handleChange}
+              onChange={(event) => {
+                handleChange(event)
+              }}
             />
           </div>
           <div className="modal_sub_text">

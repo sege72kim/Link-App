@@ -71,28 +71,19 @@ function Task({
   }
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value
-    let isValid = false
 
     if (blockTitle === "phones") {
-      // Валидация для телефонных номеров
       if (/^[0-9+]*$/.test(value) && value.length <= 15 && value.length >= 1) {
-        isValid = true
+        setInput1(value)
       }
     } else if (blockTitle === "telegrams" || blockTitle === "socials") {
-      // Валидация для Telegrams и Socials
-      if (/^[a-zA-Z_]*$/.test(value) && value.length >= 1) {
-        isValid = true
+      if (!/\s/.test(value) && value.length >= 1) {
+        setInput1(value)
       }
     } else {
-      // Для других случаев, когда нет ограничений
       if (!/\s/.test(value)) {
-        isValid = true
+        setInput1(value)
       }
-    }
-
-    // Если введенное значение прошло проверку, обновляем состояние input1
-    if (isValid) {
-      setInput1(value)
     }
   }
   return (
