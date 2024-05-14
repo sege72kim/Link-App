@@ -81,18 +81,18 @@ export function EditPage({
     type: string,
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    const value =
-      type === "about"
-        ? { text: event.target.value, pinned: data.about?.pinned }
-        : event.target.value
-
-    if (type === "username") {
-      if (/^[a-zA-Z0-9_]*$/.test(event.target.value)) {
-        setInput1(event.target.value)
+    if (type === "about") {
+      let value = { text: event.target.value, pinned: data.about?.pinned }
+      updateData({ [type]: value })
+    } else {
+      let value = event.target.value
+      if (type === "username") {
+        value = value.replace(/[^a-zA-Z0-9_]/g, "")
+        setInput1("@" + value)
+        updateData({ [type]: value })
+      } else {
         updateData({ [type]: value })
       }
-    } else {
-      updateData({ [type]: value })
     }
   }
 
@@ -193,6 +193,14 @@ export function EditPage({
           </div>
         </div>
       </div>
+      <EditBlock
+        tasks={pinnedItems}
+        blockTitle="main"
+        blockPrefix="Main"
+        modalActive={modalActive}
+        setModalActive={setModalActive}
+        updateData={updateData}
+      />
       <div className="info_container">
         <div className="input_wrapper">
           <textarea
@@ -247,14 +255,7 @@ export function EditPage({
           </div>
         </div>
       </div>
-      <EditBlock
-        tasks={pinnedItems}
-        blockTitle="main"
-        blockPrefix="Main"
-        modalActive={modalActive}
-        setModalActive={setModalActive}
-        updateData={updateData}
-      />
+
       <EditBlock
         tasks={data.telegrams}
         blockTitle="telegrams"

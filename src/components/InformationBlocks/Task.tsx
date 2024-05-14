@@ -69,23 +69,24 @@ function Task({
   }
 
   const pinColor = pinned ? "blue" : "#707579"
+
   const style: React.CSSProperties = {
     transition: transition || undefined,
     transform: transform ? CSS.Transform.toString(transform) : undefined
   }
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target
-
-    if (blockTitle === "phones") {
-      if (/^[0-9+]*$/.test(value) && value.length <= 15 && value.length >= 1) {
-        setInput1(value)
+    let { value } = event.target
+    if (blockTitle === "telegrams" || blockTitle === "socials") {
+      value = value.replace(/[^a-zA-Z0-9_]/g, "")
+      setInput1("@" + value)
+    } else if (blockTitle === "phones") {
+      value = value.replace(/[^0-9]/g, "")
+      if (value.length <= 16) {
+        setInput1("+" + value)
       }
-    } else if (blockTitle === "telegrams" || blockTitle === "socials") {
-      if (!/\s/.test(value) && value.length >= 1) {
-        setInput1(value)
-      }
-    } else if (!/\s/.test(value)) {
+    } else {
+      value = value.replace(/[^a-zA-Z0-9_!*.();:@&=+$,/?#[\]-]/g, "")
       setInput1(value)
     }
   }
