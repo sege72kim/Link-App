@@ -85,7 +85,7 @@ export function EditBlock({
   }
 
   const [input, setInput] = useState("")
-  const [input1, setInput1] = useState("")
+  const [input1, setInput1] = useState(blockPrefix)
 
   useEffect(() => {
     if (!modalActive) {
@@ -108,17 +108,14 @@ export function EditBlock({
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target
-    if (blockTitle === "phones") {
-      if (/^[0-9+]*$/.test(value) && value.length <= 15 && value.length >= 1) {
-        setInput1(value)
-      }
-    } else if (blockTitle === "telegrams" || blockTitle === "socials") {
-      if (!/\s/.test(value) && value.length >= 1) {
-        setInput1(value)
-      }
-    } else if (!/\s/.test(value)) {
-      setInput1(value)
-    }
+    const allowedChars = /^[a-zA-Z0-9_]+$/ // Regular expression for allowed characters
+
+    // Enforce prepending "@" and allow only allowed characters
+    setInput1((prevInput1) =>
+      value.length === 0
+        ? blockPrefix
+        : `@${value.replace(/[^${allowedChars}]/g, "")}`
+    )
   }
 
   const renderAddButton = () => {
@@ -216,6 +213,7 @@ export function EditBlock({
             placeholder={blockPrefix}
             value={input1}
             onChange={handleChange}
+            pattern="[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]+"
           />
         </div>
         <div className="modal_sub_text">

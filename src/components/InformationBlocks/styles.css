@@ -139,6 +139,7 @@
     letter-spacing: -0.4000000059604645px;
     text-align: center;
     padding-top: 5px;
+    text-transform: capitalize;
 }
 
 .modal_close {
