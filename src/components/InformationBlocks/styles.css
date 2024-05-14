@@ -62,7 +62,7 @@
     position: absolute;
     bottom: 0;
     right: 0;
-    width: 90%;
+    width: 100%;
     opacity: var(--line-opacity);
     height: 0.5px;
     background-color: var(--line-fill);
