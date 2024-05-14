@@ -42,6 +42,7 @@
     text-align: left;
     color: var(--link-text-color)
 }
+
 .item_text {
     font-size: 17px;
     font-weight: 400;
@@ -49,6 +50,7 @@
     letter-spacing: -0.4000000059604645px;
     text-align: left;
 }
+
 .item_container {
     width: 90%;
     padding: 12px 16px;
@@ -212,9 +214,11 @@
     display: flex;
     align-items: center;
 }
-.left_part{
+
+.left_part {
     cursor: pointer;
 }
+
 .sort_img {
     cursor: grab;
 }
@@ -222,26 +226,28 @@
 .pin_img {
     cursor: pointer;
 }
-.delete_button{
+
+.delete_button {
     position: absolute;
     width: 85%;
-  bottom: 10%;
+    bottom: 10%;
     display: flex;
     justify-content: center;
     align-items: center;
     left: 4%;
 
-    background-color:var(--delete-button-color);
+    background-color: var(--delete-button-color);
     padding: 15px 12px 15px 12px;
-border-radius: 10px;
-margin-top: 40px;
-cursor: pointer;
+    border-radius: 10px;
+    margin-top: 40px;
+    cursor: pointer;
 }
+
 .delete_button div {
-font-size: 17px;
-font-weight: 590;
-line-height: 22px;
-letter-spacing: -0.4000000059604645px;
-text-align: center;
+    font-size: 17px;
+    font-weight: 590;
+    line-height: 22px;
+    letter-spacing: -0.4000000059604645px;
+    text-align: center;
 
 }

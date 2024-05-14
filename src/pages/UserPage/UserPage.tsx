@@ -1,10 +1,10 @@
 import { FormattedMessage } from "react-intl"
 
+import { AboutBlock } from "~/components/InformationBlocks/AboutBlock"
 import { InfoBlock } from "~/components/InformationBlocks/InfoBlock"
 import type { UserFormData } from "~/types/formData.ts"
 
 import "./UserPage.css"
-import { AboutBlock } from "~/components/InformationBlocks/AboutBlock"
 
 interface Props {
   data: UserFormData
@@ -14,24 +14,23 @@ interface Props {
 }
 
 export function UserPage({ isEdit, setIsEdit, data, isOwner }: Props) {
-  const checkFunc = () => {
-    console.log(pinnedItems)
-  }
   const pinnedItems = Object.values(data).reduce(
     (accumulator, currentValue) => {
       if (Array.isArray(currentValue)) {
-        const pinnedItems = currentValue.filter((item) => item.pinned)
-        accumulator.push(...pinnedItems)
+        const pinnedItemsInner = currentValue.filter((item) => item.pinned)
+        accumulator.push(...pinnedItemsInner)
       } else if (
         typeof currentValue === "object" &&
         currentValue.pinned === true
       ) {
         accumulator.push(currentValue)
       }
+
       return accumulator
     },
     []
   )
+
   return (
     <div className="user_page">
       <div
@@ -45,7 +44,7 @@ export function UserPage({ isEdit, setIsEdit, data, isOwner }: Props) {
       >
         <div className="user_names_block">
           <div className="nickname">{data.name}</div>
-          <div className="user_name">{data.username}</div>
+          <div className="user_name">@{data.username}</div>
         </div>
       </div>
       {isOwner && (
@@ -55,15 +54,16 @@ export function UserPage({ isEdit, setIsEdit, data, isOwner }: Props) {
       )}
       <InfoBlock tasks={pinnedItems} blockTitle="main" blockPrefix="" />
       <AboutBlock text={data.about.text} pinned={data.about.pinned} />
-      <InfoBlock tasks={data.telegrams} blockTitle="telegrams" blockPrefix="" />
-      <InfoBlock tasks={data.socials} blockTitle="socials" blockPrefix="" />
+      <InfoBlock
+        tasks={data.telegrams}
+        blockTitle="telegrams"
+        blockPrefix="@"
+      />
+      <InfoBlock tasks={data.socials} blockTitle="socials" blockPrefix="@" />
       <InfoBlock tasks={data.links} blockTitle="links" blockPrefix="" />
-      <InfoBlock tasks={data.phones} blockTitle="phones" blockPrefix="" />
+      <InfoBlock tasks={data.phones} blockTitle="phones" blockPrefix="+" />
       <InfoBlock tasks={data.mails} blockTitle="mails" blockPrefix="" />
       <InfoBlock tasks={data.wallets} blockTitle="wallets" blockPrefix="" />
-      <button onClick={checkFunc}>222</button>
     </div>
   )
-
-  //       <PinnedBlock tasks={[]} blockTitle="main" blockPrefix="" />
 }

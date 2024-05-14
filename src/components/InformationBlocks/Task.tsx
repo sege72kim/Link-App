@@ -1,13 +1,14 @@
 import { useSortable } from "@dnd-kit/sortable"
 import { CSS } from "@dnd-kit/utilities"
-import React, { ChangeEvent, useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
+import { FormattedMessage } from "react-intl"
+import type { ChangeEvent } from "react"
 
 import type { UserFormItem } from "~/types/formData.ts"
 
 import Modal from "../AddingModal/Modal"
 
 import "./styles.css"
-import { FormattedMessage } from "react-intl"
 
 interface TaskProps extends UserFormItem {
   blockTitle: string
@@ -49,6 +50,9 @@ function Task({
           id
         })
       }
+    } else {
+      setInput(title)
+      setInput1(item)
     }
   }, [modalActive])
 
@@ -60,17 +64,18 @@ function Task({
       id
     })
   }
+  const handleDelete = () => {
+    deleteTask(id)
+  }
 
   const pinColor = pinned ? "blue" : "#707579"
   const style: React.CSSProperties = {
     transition: transition || undefined,
     transform: transform ? CSS.Transform.toString(transform) : undefined
   }
-  const handleDelete = () => {
-    deleteTask(id) // Вызываем функцию deleteTask при нажатии на кнопку "Delete"
-  }
+
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value
+    const { value } = event.target
 
     if (blockTitle === "phones") {
       if (/^[0-9+]*$/.test(value) && value.length <= 15 && value.length >= 1) {
@@ -80,12 +85,11 @@ function Task({
       if (!/\s/.test(value) && value.length >= 1) {
         setInput1(value)
       }
-    } else {
-      if (!/\s/.test(value)) {
-        setInput1(value)
-      }
+    } else if (!/\s/.test(value)) {
+      setInput1(value)
     }
   }
+
   return (
     <div ref={setNodeRef} style={style} {...attributes} className="task">
       <div className="item_container">

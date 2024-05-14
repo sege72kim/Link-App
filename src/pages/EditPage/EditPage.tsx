@@ -50,6 +50,7 @@ export function EditPage({
         .then((response) => response.json())
         .then((responseData) => {
           setSelectedImage(responseData.url)
+
           updateData({ image: responseData.url })
         })
         .catch((error) => {
@@ -101,6 +102,7 @@ export function EditPage({
   const [aboutText, setAboutText] = useState(data.about?.text || "")
   const [userText, setUserText] = useState("")
   const pinColor = data.about.pinned ? "blue" : "#707579"
+
   return (
     <div className="edit_page">
       <div className="avatar_picking" onClick={handleButtonClick}>

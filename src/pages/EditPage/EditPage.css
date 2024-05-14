@@ -79,6 +79,7 @@
     text-align: left;
     margin-top: 5px;
 }
+
 .info_subscription div {
     width: 280px;
     margin-bottom: 10px;
@@ -88,36 +89,36 @@
 
 .input_wrapper {
     position: relative;
-  }
-  
-  .input_bar {
+}
+
+.input_bar {
     resize: none;
     font-size: 17px;
     font-weight: 400;
     color: var(--color);
-  }
-  
-  .right_about_container {
+}
+
+.right_about_container {
     position: absolute;
     top: 0;
     right: 0;
-  }
-  
-  .pin_img_2 {
+}
+
+.pin_img_2 {
     cursor: pointer;
     position: absolute;
     top: 15px;
     right: 20px;
-  }
-  
-  .over_text {
-    position: absolute;
-top: 90px;
-    right: 20px;
-font-size: 13px;
-font-weight: 400;
-line-height: 16px;
-letter-spacing: -0.07999999821186066px;
-text-align: left;
+}
 
-  }
+.over_text {
+    position: absolute;
+    top: 90px;
+    right: 20px;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 16px;
+    letter-spacing: -0.07999999821186066px;
+    text-align: left;
+
+}

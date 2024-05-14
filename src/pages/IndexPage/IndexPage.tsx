@@ -6,8 +6,7 @@ import type { FC } from "react"
 
 import { EditPage } from "~/pages/EditPage/EditPage.tsx"
 import { UserPage } from "~/pages/UserPage/UserPage.tsx"
-import { defaultUserFormData } from "~/types/formData.ts"
-import type { UserFormData } from "~/types/formData.ts"
+import { defaultUserFormData, type UserFormData } from "~/types/formData.ts"
 
 import { StartPage } from "../StartPage/StartPage"
 
@@ -51,7 +50,7 @@ export const IndexPage: FC = () => {
   const getData = async () => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/getData?username=${initData?.startParam}`,
+        `${import.meta.env.VITE_API_URL}/getData?username=${data.username || initData?.startParam || ""}`,
         {
           headers: {
             Authorization: `Bearer ${rawData}`,
@@ -68,7 +67,7 @@ export const IndexPage: FC = () => {
     } catch (error) {
       setData(defaultUserFormData)
       // setData({
-      //   userId: 23,
+      //   userId: 957008377,
       //   image: "./images/camera.svg",
       //   name: "string",
       //   username: "string",
@@ -140,6 +139,7 @@ export const IndexPage: FC = () => {
       //   mails: [],
       //   wallets: []
       // })
+      console.error(error)
     }
   }
 
@@ -148,6 +148,16 @@ export const IndexPage: FC = () => {
   }, [])
 
   useEffect(() => {
+    const disableButton = () => {
+      mainButton.disable()
+      mainButton.setBackgroundColor("#808080")
+    }
+
+    const enableButton = () => {
+      mainButton.enable()
+      mainButton.setBackgroundColor("#5288c1")
+    }
+
     const use = () => {
       if (modalActive) setModalActive("")
       else if (data.username) {
@@ -155,12 +165,20 @@ export const IndexPage: FC = () => {
       } else setIsEdit(true)
     }
 
-    if (data.username || isEdit) {
-      mainButton.setText(intl.formatMessage({ id: "save" }))
-    } else mainButton.setText(intl.formatMessage({ id: "create" }))
+    const existsCondition = data.username && data.name && data.image
+    if (isEdit) {
+      mainButton.show()
 
-    mainButton.enable()
-    mainButton.show()
+      if (!existsCondition) disableButton()
+      else enableButton()
+
+      mainButton.setText(intl.formatMessage({ id: "save" }))
+    } else if (!existsCondition) {
+      mainButton.show()
+
+      mainButton.enable()
+      mainButton.setText(intl.formatMessage({ id: "create" }))
+    } else mainButton.hide()
 
     mainButton.on("click", use)
     return () => mainButton.off("click", use)
@@ -180,7 +198,7 @@ export const IndexPage: FC = () => {
           setIsEdit={setIsEdit}
           isEdit={isEdit}
           data={data}
-          isOwner={initData?.startParam === data.username}
+          isOwner={data.userId === initData?.user?.id}
         />
       ) : (
         <StartPage />

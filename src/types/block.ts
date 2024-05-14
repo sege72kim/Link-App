@@ -7,6 +7,7 @@ export interface BlockProps {
   blockPrefix: string
   updateData?: (value: object) => void
 }
+
 export interface AboutProps {
   text: string
   pinned?: boolean

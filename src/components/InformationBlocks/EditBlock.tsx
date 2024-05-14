@@ -12,7 +12,7 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy
 } from "@dnd-kit/sortable"
-import React, { ChangeEvent, useEffect, useRef, useState } from "react"
+import React, { type ChangeEvent, useEffect, useRef, useState } from "react"
 import { FormattedMessage, useIntl } from "react-intl"
 
 import type { BlockProps } from "~/types/block.ts"
@@ -36,7 +36,6 @@ export function EditBlock({
   setModalActive: React.Dispatch<React.SetStateAction<string>>
 }) {
   const intl = useIntl()
-  const [tasks1, setTasks] = useState<UserFormItem[]>(tasks)
   const blockRef = useRef<HTMLDivElement>(null)
 
   const sensors = useSensors(
@@ -55,32 +54,32 @@ export function EditBlock({
     return () => blockElement?.removeEventListener("touchmove", preventScroll)
   }, [])
 
-  useEffect(() => {
-    if (updateData) {
-      updateData({ [blockTitle]: tasks1 })
-    }
-  }, [tasks1])
-
   const updateTaskData = (value: UserFormItem) => {
-    if (updateData) {
-      updateData({
-        [blockTitle]: tasks1.map((item) =>
-          item.id === value.id ? value : item
-        )
-      })
-    }
+    if (!updateData) return
+
+    updateData({
+      [blockTitle]: tasks.map((item) => (item.id === value.id ? value : item))
+    })
   }
 
   const deleteTask = (taskId: number) => {
-    setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId))
+    if (!updateData) return
+
+    updateData({
+      [blockTitle]: tasks.filter((task) => task.id !== taskId)
+    })
   }
 
   const handleDragEnd = ({ active, over }: any) => {
+    if (!updateData) return
+
     if (active.id !== over.id) {
-      setTasks((prevState) => {
-        const originalPos = prevState.findIndex((item) => item.id === active.id)
-        const newPos = prevState.findIndex((item) => item.id === over.id)
-        return arrayMove(prevState, originalPos, newPos)
+      updateData({
+        [blockTitle]: arrayMove(
+          tasks,
+          tasks.findIndex((item) => item.id === active.id),
+          tasks.findIndex((item) => item.id === over.id)
+        )
       })
     }
   }
@@ -90,59 +89,40 @@ export function EditBlock({
 
   useEffect(() => {
     if (!modalActive) {
-      if (input && input1) {
+      if (input && input1 && updateData) {
         const newTask = {
-          id: tasks1.length ? tasks1[tasks1.length - 1].id + 1 : 0,
+          id: tasks.length ? tasks[tasks.length - 1].id + 1 : 0,
           title: input,
           item: input1,
           pinned: false
         }
-        setTasks((prevState) => [...prevState, newTask])
+        updateData({
+          [blockTitle]: [...tasks, newTask]
+        })
+
         setInput("")
-        if (blockTitle === "phones") {
-          setInput1("+")
-        } else if (blockTitle === "telegrams" || blockTitle === "socials") {
-          setInput1("@")
-        } else {
-          setInput1("")
-        }
+        setInput1(blockPrefix)
       }
     }
   }, [modalActive])
 
-  useEffect(() => {
-    if (blockTitle === "phones") {
-      setInput1("+")
-    } else if (blockTitle === "telegrams" || blockTitle === "socials") {
-      setInput1("@")
-    } else {
-      setInput1("")
-    }
-  }, [blockTitle])
-
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value
+    const { value } = event.target
     if (blockTitle === "phones") {
-      if (
-        /^[0-9+]*$/.test(event.target.value) &&
-        event.target.value.length <= 15 &&
-        event.target.value.length >= 1
-      ) {
+      if (/^[0-9+]*$/.test(value) && value.length <= 15 && value.length >= 1) {
         setInput1(value)
       }
     } else if (blockTitle === "telegrams" || blockTitle === "socials") {
-      if (!/\s/.test(event.target.value) && event.target.value.length >= 1) {
+      if (!/\s/.test(value) && value.length >= 1) {
         setInput1(value)
       }
-    } else {
-      if (!/\s/.test(event.target.value)) {
-        setInput1(value)
-      }
+    } else if (!/\s/.test(value)) {
+      setInput1(value)
     }
   }
 
   const renderAddButton = () => {
-    if ((tasks1.length !== 5 || tasks1.length < 5) && blockTitle !== "main") {
+    if ((tasks.length !== 5 || tasks.length < 5) && blockTitle !== "main") {
       return (
         <div
           className="item_container"
@@ -156,8 +136,9 @@ export function EditBlock({
       )
     }
   }
+
   const renderBlockContent = () => {
-    if (!tasks1.length) {
+    if (!tasks.length) {
       return <div className="info_block">{renderAddButton()}</div>
     }
 
@@ -168,11 +149,8 @@ export function EditBlock({
         collisionDetection={closestCorners}
       >
         <div className="info_block">
-          <SortableContext
-            items={tasks1}
-            strategy={verticalListSortingStrategy}
-          >
-            {tasks1.map((item) => (
+          <SortableContext items={tasks} strategy={verticalListSortingStrategy}>
+            {tasks.map((item) => (
               <Task
                 key={item.id}
                 id={item.id}
@@ -184,7 +162,7 @@ export function EditBlock({
                 blockTitle={blockTitle}
                 blockPrefix={blockPrefix}
                 updateTaskData={updateTaskData}
-                deleteTask={deleteTask} // Передаем функцию deleteTask
+                deleteTask={deleteTask}
                 modalActive={modalActive}
                 setModalActive={setModalActive}
               />
@@ -195,59 +173,55 @@ export function EditBlock({
       </DndContext>
     )
   }
-  if (blockTitle === "main" && !tasks1.length) {
-    return <></>
-  } else {
-    return (
-      <div className="info_block_container_edit" ref={blockRef}>
-        {" "}
-        <div className="block_title">
-          {intl.formatMessage({ id: `block_${blockTitle}` })}
-        </div>
-        {renderBlockContent()}
-        <div className="info_subscription_2">
-          <div>{intl.formatMessage({ id: `sub_block_${blockTitle}` })}</div>
-        </div>
-        <Modal active={modalActive === blockTitle} setActive={setModalActive}>
-          <div className="modal_top">
-            <div>
-              <div className="modal_top_line" />
-              <div className="modal_top_text">{blockTitle}</div>
-            </div>
-          </div>
-          <div
-            className="modal_close"
-            onClick={() => {
-              setInput("")
-              setInput1("")
 
-              setModalActive("false")
-            }}
-          >
-            <img src="/images/cross.svg" alt="Close" />
-          </div>
-          <div className="modal_input_container">
-            <input
-              type="text"
-              placeholder="Title"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-            />
-            <div className="fill_line_2" />
-            <input
-              type="text"
-              placeholder={blockPrefix}
-              value={input1}
-              onChange={(event) => {
-                handleChange(event)
-              }}
-            />
-          </div>
-          <div className="modal_sub_text">
-            {intl.formatMessage({ id: `sub_block_${blockTitle}` })}
-          </div>
-        </Modal>
+  if (blockTitle === "main" && !tasks.length) return null
+
+  return (
+    <div className="info_block_container_edit" ref={blockRef}>
+      <div className="block_title">
+        {intl.formatMessage({ id: `block_${blockTitle}` })}
       </div>
-    )
-  }
+      {renderBlockContent()}
+      <div className="info_subscription_2">
+        <div>{intl.formatMessage({ id: `sub_block_${blockTitle}` })}</div>
+      </div>
+      <Modal active={modalActive === blockTitle} setActive={setModalActive}>
+        <div className="modal_top">
+          <div>
+            <div className="modal_top_line" />
+            <div className="modal_top_text">{blockTitle}</div>
+          </div>
+        </div>
+        <div
+          className="modal_close"
+          onClick={() => {
+            setInput("")
+            setInput1("")
+
+            setModalActive("false")
+          }}
+        >
+          <img src="/images/cross.svg" alt="Close" />
+        </div>
+        <div className="modal_input_container">
+          <input
+            type="text"
+            placeholder="Title"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+          />
+          <div className="fill_line_2" />
+          <input
+            type="text"
+            placeholder={blockPrefix}
+            value={input1}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="modal_sub_text">
+          {intl.formatMessage({ id: `sub_block_${blockTitle}` })}
+        </div>
+      </Modal>
+    </div>
+  )
 }
