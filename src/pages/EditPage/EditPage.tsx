@@ -108,20 +108,8 @@ export function EditPage({
     }
   }
 
-  const togglePinAbout = () => {
-    updateData({
-      about: {
-        text: data.about?.text,
-        pinned: !data.about?.pinned,
-        keyType: "about"
-      }
-    })
-  }
-
   const [aboutText, setAboutText] = useState(data.about?.text || "")
   const [userText, setUserText] = useState("")
-
-  const pinColor = data.about?.pinned ? "blue" : "#707579"
 
   return (
     <div className="edit_page">
@@ -213,14 +201,7 @@ export function EditPage({
           </div>
         </div>
       </div>
-      <EditBlock
-        tasks={pinnedItems}
-        blockTitle="main"
-        blockPrefix="Main"
-        modalActive={modalActive}
-        setModalActive={setModalActive}
-        updateData={updateData}
-      />
+
       <div className="info_container">
         <div className="input_wrapper">
           <textarea
@@ -241,27 +222,6 @@ export function EditPage({
             placeholder={intl.formatMessage({ id: "input_2" })}
           />
           <div className="right_about_container">
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-              className="pin_img_2"
-              onClick={togglePinAbout}
-            >
-              <path
-                d="M8.56927 5.88209L14.1179 11.4307L12.6564 18.3735C12.4379 19.4114 11.1559 19.8123 10.4173 19.0737L0.926329 9.58274C0.187716 8.84413 0.588615 7.56212 1.62653 7.34362L8.56927 5.88209Z"
-                fill={pinColor}
-              />
-              <path
-                d="M0 20L6.59657 15.253L4.74702 13.4034L0 20Z"
-                fill={pinColor}
-              />
-              <path
-                d="M12.3951 0.565689C12.8773 -0.104447 13.8365 -0.194279 14.4079 0.377176L19.6228 5.59205C20.1943 6.16351 20.1044 7.12271 19.4343 7.60495L14.1179 11.4307L8.56927 5.88209L12.3951 0.565689Z"
-                fill={pinColor}
-              />
-            </svg>
             <div className="over_text">
               {aboutText.length > 140 && (
                 <div style={{ color: "red" }}>-{aboutText.length - 140}</div>
@@ -275,7 +235,14 @@ export function EditPage({
           </div>
         </div>
       </div>
-
+      <EditBlock
+        tasks={pinnedItems}
+        blockTitle="main"
+        blockPrefix="Main"
+        modalActive={modalActive}
+        setModalActive={setModalActive}
+        updateData={updateData}
+      />
       <EditBlock
         tasks={data.telegrams}
         blockTitle="telegrams"

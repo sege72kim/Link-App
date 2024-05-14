@@ -61,7 +61,7 @@
 .fill_line {
     position: absolute;
     bottom: 0;
-    margin: 0 auto;
+    right: 0;
     width: 90%;
     opacity: var(--line-opacity);
     height: 0.5px;

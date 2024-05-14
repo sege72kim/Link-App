@@ -52,8 +52,9 @@ export function UserPage({ isEdit, setIsEdit, data, isOwner }: Props) {
           <FormattedMessage id="edit" />
         </div>
       )}
-      <InfoBlock tasks={pinnedItems} blockTitle="main" blockPrefix="" />
       <AboutBlock text={data.about.text} pinned={data.about.pinned} />
+      <InfoBlock tasks={pinnedItems} blockTitle="main" blockPrefix="" />
+
       <InfoBlock
         tasks={data.telegrams}
         blockTitle="telegrams"
