@@ -58,7 +58,9 @@ export function EditBlock({
     if (!updateData) return
 
     updateData({
-      [blockTitle]: tasks.map((item) => (item.id === value.id ? value : item))
+      [value.keyType || blockTitle]: tasks.map((item) =>
+        item.id === value.id ? value : item
+      )
     })
   }
 
@@ -75,7 +77,7 @@ export function EditBlock({
 
     if (active.id !== over.id) {
       updateData({
-        [blockTitle]: arrayMove(
+        [active.key || blockTitle]: arrayMove(
           tasks,
           tasks.findIndex((item) => item.id === active.id),
           tasks.findIndex((item) => item.id === over.id)
@@ -118,11 +120,11 @@ export function EditBlock({
     let { value } = event.target
     if (blockTitle === "telegrams" || blockTitle === "socials") {
       value = value.replace(/[^a-zA-Z0-9_]/g, "")
-      setInput1("@" + value)
+      setInput1(`@${value}`)
     } else if (blockTitle === "phones") {
       value = value.replace(/[^0-9]/g, "")
       if (value.length <= 16) {
-        setInput1("+" + value)
+        setInput1(`+${value}`)
       }
     } else {
       value = value.replace(/[^a-zA-Z0-9_!*.();:@&=+$,/?#[\]-]/g, "")
@@ -165,6 +167,8 @@ export function EditBlock({
                 id={item.id}
                 title={item.title}
                 item={item.item}
+                keyType={item.keyType}
+                pinned={item.pinned}
                 blockSubTitle={intl.formatMessage({
                   id: `sub_block_${blockTitle}`
                 })}

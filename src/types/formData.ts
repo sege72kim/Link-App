@@ -4,6 +4,7 @@ export interface UserFormItem {
   item: string
   pinned?: boolean
   text?: string
+  keyType?: string
 }
 
 export interface UserFormData {

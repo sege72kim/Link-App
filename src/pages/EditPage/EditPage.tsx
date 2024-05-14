@@ -3,13 +3,14 @@ import React, {
   type ChangeEvent,
   type Dispatch,
   type SetStateAction,
+  useMemo,
   useRef,
   useState
 } from "react"
 import { FormattedMessage, useIntl } from "react-intl"
 
 import { EditBlock } from "~/components/InformationBlocks/EditBlock"
-import type { UserFormData } from "~/types/formData.ts"
+import type { UserFormData, UserFormItem } from "~/types/formData.ts"
 
 import "./EditPage.css"
 
@@ -58,37 +59,48 @@ export function EditPage({
         })
     }
   }
-  const pinnedItems = Object.values(data).reduce(
-    (accumulator, currentValue) => {
-      if (Array.isArray(currentValue)) {
-        const pinnedItems = currentValue.filter((item) => item.pinned)
-        accumulator.push(...pinnedItems)
-      } else if (
-        typeof currentValue === "object" &&
-        currentValue.pinned === true
-      ) {
-        accumulator.push(currentValue)
-      }
-      return accumulator
-    },
-    []
+
+  const pinnedItems: UserFormItem[] = useMemo(
+    () =>
+      Object.entries(data).reduce<UserFormItem[]>(
+        (accumulator, [key, currentValue]) => {
+          if (Array.isArray(currentValue)) {
+            const pinnedArrayItems = currentValue
+              .filter((item) => item.pinned)
+              .map((item) => ({ ...item, keyType: key }))
+
+            accumulator.push(...pinnedArrayItems)
+          } else if (
+            typeof currentValue === "object" &&
+            currentValue?.pinned === true
+          ) {
+            accumulator.push({ ...currentValue, keyType: key, id: 0 })
+          }
+          return accumulator
+        },
+        []
+      ),
+    [data]
   )
+
   const handleButtonClick = () => {
     if (inputRef.current) inputRef.current.click()
   }
+
   const [input1, setInput1] = useState("")
+
   const handleChange = (
     type: string,
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     if (type === "about") {
-      let value = { text: event.target.value, pinned: data.about?.pinned }
+      const value = { text: event.target.value, pinned: data.about?.pinned }
       updateData({ [type]: value })
     } else {
-      let value = event.target.value
+      let { value } = event.target
       if (type === "username") {
         value = value.replace(/[^a-zA-Z0-9_]/g, "")
-        setInput1("@" + value)
+        setInput1(`@${value}`)
         updateData({ [type]: value })
       } else {
         updateData({ [type]: value })
@@ -96,12 +108,20 @@ export function EditPage({
     }
   }
 
-  const togglePin = () => {
-    updateData
+  const togglePinAbout = () => {
+    updateData({
+      about: {
+        text: data.about?.text,
+        pinned: !data.about?.pinned,
+        keyType: "about"
+      }
+    })
   }
+
   const [aboutText, setAboutText] = useState(data.about?.text || "")
   const [userText, setUserText] = useState("")
-  const pinColor = data.about.pinned ? "blue" : "#707579"
+
+  const pinColor = data.about?.pinned ? "blue" : "#707579"
 
   return (
     <div className="edit_page">
@@ -227,7 +247,7 @@ export function EditPage({
               viewBox="0 0 20 20"
               xmlns="http://www.w3.org/2000/svg"
               className="pin_img_2"
-              onClick={togglePin}
+              onClick={togglePinAbout}
             >
               <path
                 d="M8.56927 5.88209L14.1179 11.4307L12.6564 18.3735C12.4379 19.4114 11.1559 19.8123 10.4173 19.0737L0.926329 9.58274C0.187716 8.84413 0.588615 7.56212 1.62653 7.34362L8.56927 5.88209Z"

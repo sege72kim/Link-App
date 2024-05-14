@@ -22,6 +22,7 @@ function Task({
   id,
   item,
   pinned,
+  keyType,
   title,
   blockTitle,
   blockSubTitle,
@@ -42,7 +43,7 @@ function Task({
 
   useEffect(() => {
     if (!modalActive) {
-      if (input && input1) {
+      if (input !== title && input1 !== item) {
         updateTaskData({
           title: input,
           item: input1,
@@ -60,10 +61,12 @@ function Task({
     updateTaskData({
       title: input,
       item: input1,
+      keyType,
       pinned: !pinned,
       id
     })
   }
+
   const handleDelete = () => {
     deleteTask(id)
   }
@@ -79,11 +82,11 @@ function Task({
     let { value } = event.target
     if (blockTitle === "telegrams" || blockTitle === "socials") {
       value = value.replace(/[^a-zA-Z0-9_]/g, "")
-      setInput1("@" + value)
+      setInput1(`@${value}`)
     } else if (blockTitle === "phones") {
       value = value.replace(/[^0-9]/g, "")
       if (value.length <= 16) {
-        setInput1("+" + value)
+        setInput1(`+${value}`)
       }
     } else {
       value = value.replace(/[^a-zA-Z0-9_!*.();:@&=+$,/?#[\]-]/g, "")

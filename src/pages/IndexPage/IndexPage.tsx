@@ -166,7 +166,11 @@ export const IndexPage: FC = () => {
     }
 
     const existsCondition = data.username && data.name && data.image
-    if (isEdit) {
+    if (modalActive) {
+      enableButton()
+
+      mainButton.setText(intl.formatMessage({ id: "save" }))
+    } else if (isEdit) {
       mainButton.show()
 
       if (!existsCondition) disableButton()
