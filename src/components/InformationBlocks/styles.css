@@ -171,9 +171,13 @@
     border-radius: 12px;
 }
 
-.modal_input_container input {
+.input_title_2 {
     background-color: var(--background-color-2);
     margin: 0 10px;
+    padding: 16px;
+    
+}
+.modal_input_container input{
     font-size: 17px;
     font-weight: 400;
     line-height: 22px;
@@ -181,10 +185,17 @@
     text-align: left;
     border: 0;
     outline: 0;
-    padding: 16px;
-    color: var(--color)
+    color: var(--color);
+    font-family: "SF Pro";
 }
-
+.input_title_2{
+    display:flex;
+    align-items: center;
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 22px;
+    letter-spacing: -0.4000000059604645px;
+}
 .modal_sub_text {
     width: 300px;
     margin-left: 25px;

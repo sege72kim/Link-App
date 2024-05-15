@@ -58,4 +58,5 @@ cursor: pointer;
     text-align: center;
     color: var(--link-text-color);
     text-decoration: none;
+    cursor: pointer;
 }

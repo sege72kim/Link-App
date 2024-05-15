@@ -79,12 +79,12 @@ function Task({
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     let { value } = event.target
-    if (blockTitle === "telegrams" || blockTitle === "socials") {
+    if (blockTitle === "telegrams") {
       value = value.replace(/[^a-zA-Z0-9_]/g, "")
-      setInput1(`@${value}`)
+      setInput1(value)
     } else if (blockTitle === "phones") {
-      value = value.replace(/[^0-9]/g, "")
       if (value.length <= 16) {
+        value = value.replace(/[^0-9]/g, "")
         setInput1(`+${value}`)
       }
     } else {
@@ -101,6 +101,16 @@ function Task({
       }
     } else return url
   }
+  const [inputActive, setInputActive] = useState(false)
+
+  const handleInputFocus = () => {
+    setInputActive(true)
+  }
+
+  const handleInputBlur = () => {
+    setInputActive(false)
+  }
+
   return (
     <div ref={setNodeRef} style={style} {...attributes} className="task">
       <div className="item_container">
@@ -153,19 +163,30 @@ function Task({
           <img src="/images/cross.svg" alt="+" />
         </div>
         <div className="modal_input_container">
-          <input
-            type="text"
-            placeholder="Title"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-          />
+          <div className="input_title_2">
+            <input
+              type="text"
+              placeholder="Title"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+            />
+          </div>
           <div className="fill_line_2" />
-          <input
-            type="text"
-            placeholder={blockPrefix}
-            value={input1}
-            onChange={handleChange}
-          />
+          <div className="input_title_2">
+            {inputActive && blockTitle === "telegrams" && <div>@</div>}
+            {input1 && blockTitle === "telegrams" && inputActive === false && (
+              <div>@</div>
+            )}
+            <input
+              type="text"
+              placeholder={blockPrefix}
+              value={input1}
+              onChange={handleChange}
+              className={inputActive ? "active" : ""}
+              onFocus={handleInputFocus}
+              onBlur={handleInputBlur}
+            />
+          </div>
         </div>
         <div className="modal_sub_text">{blockSubTitle}</div>
         <div className="delete_button" onClick={handleDelete}>

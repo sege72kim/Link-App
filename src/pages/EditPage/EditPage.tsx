@@ -101,7 +101,7 @@ export function EditPage({
       let { value } = event.target
 
       value = value.replace(/[^a-zA-Z0-9_]/g, "")
-      setInput1(`@${value}`)
+      setInput1(`${value}`)
       updateData({ [type]: value })
 
       fetch(
@@ -120,7 +120,15 @@ export function EditPage({
 
   const [aboutText, setAboutText] = useState(data.about?.text || "")
   const [userText, setUserText] = useState("")
+  const [inputActive, setInputActive] = useState(false)
 
+  const handleInputFocus = () => {
+    setInputActive(true)
+  }
+
+  const handleInputBlur = () => {
+    setInputActive(false)
+  }
   return (
     <div className="edit_page">
       <div className="avatar_picking" onClick={handleButtonClick}>
@@ -165,11 +173,15 @@ export function EditPage({
       <div className="info_container">
         <div className="info_title" />
         <div className="input_wrapper">
+          {inputActive && <div>@</div>}
+          {input1 && !inputActive && <div>@</div>}
           <input
-            className="input_bar"
             type="text"
-            placeholder="@username"
+            placeholder="username"
             value={input1}
+            className={inputActive ? "input_bar active" : "input_bar"}
+            onFocus={handleInputFocus}
+            onBlur={handleInputBlur}
             onChange={(event) => {
               const newUsername = event.target.value
               setUserText(newUsername)
@@ -197,7 +209,7 @@ export function EditPage({
             </div>
           ) : (
             <div style={{ color: "#31D158" }}>
-              {userText}
+              @{userText}
               <FormattedMessage id="info_sub_4" />
             </div>
           )}
@@ -248,7 +260,7 @@ export function EditPage({
       <EditBlock
         tasks={data.telegrams}
         blockTitle="telegrams"
-        blockPrefix="@"
+        blockPrefix="Username"
         modalActive={modalActive}
         setModalActive={setModalActive}
         updateData={updateData}
@@ -256,7 +268,7 @@ export function EditPage({
       <EditBlock
         tasks={data.socials}
         blockTitle="socials"
-        blockPrefix="@"
+        blockPrefix="Link"
         modalActive={modalActive}
         setModalActive={setModalActive}
         updateData={updateData}

@@ -40,8 +40,16 @@
     padding: 15px 20px;
     border-radius: 12px;
     margin: 0 10px;
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 22px;
+    letter-spacing: -0.4000000059604645px;
+    text-align: left;
+    color: var(--color);
     background-color: var(--background-color-2);
-
+    position: relative;
+    font-family: "SF Pro";
+    align-items: center;
 }
 
 .input_bar {
@@ -54,7 +62,9 @@
     line-height: 22px;
     letter-spacing: -0.4000000059604645px;
     text-align: left;
-    color: var(--color)
+    color: var(--color);
+    resize: none;
+    font-family: "SF Pro";
 }
 
 .info_title {
@@ -83,18 +93,6 @@
     width: 280px;
     margin-bottom: 10px;
     color: var(--sub-text-color)
-}
-
-
-.input_wrapper {
-    position: relative;
-}
-
-.input_bar {
-    resize: none;
-    font-size: 17px;
-    font-weight: 400;
-    color: var(--color);
 }
 
 .right_about_container {

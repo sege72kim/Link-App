@@ -85,9 +85,11 @@ export function EditBlock({
       })
     }
   }
-
+  const http = "https://"
+  const initialState =
+    blockTitle === "links" ? http : blockTitle === "socials" ? http : ""
   const [input, setInput] = useState("")
-  const [input1, setInput1] = useState("")
+  const [input1, setInput1] = useState(initialState)
 
   useEffect(() => {
     if (!modalActive) {
@@ -103,10 +105,10 @@ export function EditBlock({
         })
 
         setInput("")
-        if (blockTitle === "socials" || blockTitle === "phones") {
+        if (blockTitle === "phones") {
           setInput1(blockPrefix)
         } else {
-          setInput1("")
+          setInput1(initialState)
         }
       }
     }
@@ -114,23 +116,28 @@ export function EditBlock({
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     let { value } = event.target
-    if (blockTitle === "telegrams" || blockTitle === "socials") {
+    if (blockTitle === "telegrams") {
       value = value.replace(/[^a-zA-Z0-9_]/g, "")
-      setInput1(`${value}`)
+      setInput1(value)
     } else if (blockTitle === "phones") {
       if (value.length <= 16) {
         value = value.replace(/[^0-9]/g, "")
         setInput1(`+${value}`)
       }
-    } else if (blockTitle === "links") {
-      value = value.replace(/[^A-Z0-9_!*.();:@&=+$,/?#[\]-]/g, "")
-      setInput1(`https://${value}`)
     } else {
       value = value.replace(/[^a-zA-Z0-9_!*.();:@&=+$,/?#[\]-]/g, "")
       setInput1(value)
     }
   }
+  const [inputActive, setInputActive] = useState(false)
 
+  const handleInputFocus = () => {
+    setInputActive(true)
+  }
+
+  const handleInputBlur = () => {
+    setInputActive(false)
+  }
   const renderAddButton = () => {
     if ((tasks.length !== 5 || tasks.length < 5) && blockTitle !== "main") {
       return (
@@ -208,7 +215,7 @@ export function EditBlock({
           className="modal_close"
           onClick={() => {
             setInput("")
-            setInput1("")
+            setInput1(initialState)
 
             setModalActive("false")
           }}
@@ -216,19 +223,30 @@ export function EditBlock({
           <img src="/images/cross.svg" alt="Close" />
         </div>
         <div className="modal_input_container">
-          <input
-            type="text"
-            placeholder="Title"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-          />
+          <div className="input_title_2">
+            <input
+              type="text"
+              placeholder="Title"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+            />
+          </div>
           <div className="fill_line_2" />
-          <input
-            type="text"
-            placeholder={blockPrefix}
-            value={input1}
-            onChange={handleChange}
-          />
+          <div className="input_title_2">
+            {inputActive && blockTitle === "telegrams" && <div>@</div>}
+            {input1 && blockTitle === "telegrams" && inputActive === false && (
+              <div>@</div>
+            )}
+            <input
+              type="text"
+              placeholder={blockPrefix}
+              value={input1}
+              onChange={handleChange}
+              className={inputActive ? "active" : ""}
+              onFocus={handleInputFocus}
+              onBlur={handleInputBlur}
+            />
+          </div>
         </div>
         <div className="modal_sub_text">
           {intl.formatMessage({ id: `sub_block_${blockTitle}` })}
