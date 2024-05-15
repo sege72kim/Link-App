@@ -253,3 +253,22 @@
     text-align: center;
 
 }
+.notification {
+    position: fixed;
+    bottom: -100px;
+    left: 50%;
+    width: 80%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 20px 20px;
+    border-radius: 15px;
+    transition: bottom 0.5s ease;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.notification.show {
+    bottom: 10px;
+}
+

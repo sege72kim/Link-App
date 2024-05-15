@@ -6,9 +6,9 @@ export interface BlockProps {
   blockTitle: string
   blockPrefix: string
   updateData?: (value: object) => void
+  showNotification?: (value: string) => void
 }
 
 export interface AboutProps {
   text: string
-  pinned?: boolean
 }

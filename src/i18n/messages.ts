@@ -37,7 +37,9 @@ export const messages = {
     input_2: "About",
     create: "Create link",
     save: "Save",
-    delete: "Delete"
+    delete: "Delete",
+    notification_1: "Copied to clipboard",
+    share: "Share"
   } as Record<string, string>,
   [LOCALES.RUSSIAN]: {
     text_1:
@@ -76,6 +78,8 @@ export const messages = {
     input_2: "О себе",
     create: "Создать ссылку",
     save: "Сохранить",
-    delete: "Удалить"
+    delete: "Удалить",
+    notification_1: "Скопировано в буфер обмена",
+    share: "Поделиться"
   }
 }

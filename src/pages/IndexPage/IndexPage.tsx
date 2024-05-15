@@ -11,6 +11,7 @@ import { defaultUserFormData, type UserFormData } from "~/types/formData.ts"
 import { StartPage } from "../StartPage/StartPage"
 
 import "./IndexPage.css"
+import Notification from "~/components/InformationBlocks/Notification"
 
 export const IndexPage: FC = () => {
   const intl = useIntl()
@@ -67,12 +68,13 @@ export const IndexPage: FC = () => {
     } catch (error) {
       setData({
         userId: 957008377,
-        image: "./images/camera.svg",
+        image:
+          "https://img.freepik.com/free-photo/the-adorable-illustration-of-kittens-playing-in-the-forest-generative-ai_260559-483.jpg?size=338&ext=jpg&ga=GA1.1.44546679.1715644800&semt=ais_user",
         name: "Sergye",
         username: "sergey728",
         about: {
           text: "About bruh",
-          pinned: true
+          pinned: false
         },
         telegrams: [
           {
@@ -186,6 +188,19 @@ export const IndexPage: FC = () => {
     return () => mainButton.off("click", use)
   }, [modalActive, isEdit, data])
 
+  const [isNotificationActive, setIsNotificationActive] =
+    useState<boolean>(false)
+
+  const [textNotification, setTextNotification] = useState("")
+
+  const showNotification = (url: string) => {
+    setIsNotificationActive(true)
+    setTextNotification(url)
+    setTimeout(() => {
+      setIsNotificationActive(false)
+    }, 1000)
+  }
+
   return (
     <div className="index_page_container">
       {isEdit ? (
@@ -201,10 +216,12 @@ export const IndexPage: FC = () => {
           isEdit={isEdit}
           data={data}
           isOwner={data.userId === initData?.user?.id}
+          showNotification={showNotification}
         />
       ) : (
         <StartPage />
       )}
+      <Notification isActive={isNotificationActive} text={textNotification} />
     </div>
   )
 }

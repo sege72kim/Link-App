@@ -93,14 +93,22 @@ function Task({
       setInput1(value)
     }
   }
-
+  const shortenUrl = (url: string) => {
+    if (blockTitle === "socials" || blockTitle === "links") {
+      const regex = /^(?:https?:\/\/)?(?:www\.)?(.*)$/
+      const match = url.match(regex)
+      if (match && match.length > 1) {
+        return match[1]
+      }
+    } else return url
+  }
   return (
     <div ref={setNodeRef} style={style} {...attributes} className="task">
       <div className="item_container">
         <div className="item_edit_container">
           <div className="left_part" onClick={() => setModalActive(title + id)}>
             <div className="item_title">{title}</div>
-            <div className="item_url">{item}</div>
+            <div className="item_url">{shortenUrl(item)}</div>
           </div>
           <div className="right_part">
             <svg

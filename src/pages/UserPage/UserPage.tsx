@@ -11,9 +11,16 @@ interface Props {
   setIsEdit: (value: boolean) => void
   isEdit: boolean
   isOwner: boolean
+  showNotification: (value: string) => void
 }
 
-export function UserPage({ isEdit, setIsEdit, data, isOwner }: Props) {
+export function UserPage({
+  isEdit,
+  setIsEdit,
+  data,
+  isOwner,
+  showNotification
+}: Props) {
   const pinnedItems = Object.values(data).reduce(
     (accumulator, currentValue) => {
       if (Array.isArray(currentValue)) {
@@ -42,6 +49,11 @@ export function UserPage({ isEdit, setIsEdit, data, isOwner }: Props) {
           width: "100%"
         }}
       >
+        <div className="share">
+          <div className="share_button">
+            <FormattedMessage id="share" />
+          </div>
+        </div>
         <div className="user_names_block">
           <div className="nickname">{data.name}</div>
           <div className="user_name">@{data.username}</div>
@@ -52,24 +64,49 @@ export function UserPage({ isEdit, setIsEdit, data, isOwner }: Props) {
           <FormattedMessage id="edit" />
         </div>
       )}
-      <AboutBlock text={data.about.text} pinned={data.about.pinned} />
-      <InfoBlock tasks={pinnedItems} blockTitle="main" blockPrefix="" />
+      <AboutBlock text={data.about.text} />
+      <InfoBlock
+        tasks={pinnedItems}
+        blockTitle="main"
+        blockPrefix=""
+        showNotification={showNotification}
+      />
 
       <InfoBlock
         tasks={data.telegrams}
         blockTitle="telegrams"
         blockPrefix="@"
+        showNotification={showNotification}
       />
-      <InfoBlock tasks={data.socials} blockTitle="socials" blockPrefix="@" />
-      <InfoBlock tasks={data.links} blockTitle="links" blockPrefix="" />
-      <InfoBlock tasks={data.phones} blockTitle="phones" blockPrefix="+" />
-      <InfoBlock tasks={data.mails} blockTitle="mails" blockPrefix="" />
-      <InfoBlock tasks={data.wallets} blockTitle="wallets" blockPrefix="" />
-
-      <button
-        onClick={() => {
-          console.log(pinnedItems)
-        }}
+      <InfoBlock
+        tasks={data.socials}
+        blockTitle="socials"
+        blockPrefix="@"
+        showNotification={showNotification}
+      />
+      <InfoBlock
+        tasks={data.links}
+        blockTitle="links"
+        blockPrefix=""
+        showNotification={showNotification}
+      />
+      <InfoBlock
+        tasks={data.phones}
+        blockTitle="phones"
+        blockPrefix="+"
+        showNotification={showNotification}
+      />
+      <InfoBlock
+        tasks={data.mails}
+        blockTitle="mails"
+        blockPrefix=""
+        showNotification={showNotification}
+      />
+      <InfoBlock
+        tasks={data.wallets}
+        blockTitle="wallets"
+        blockPrefix=""
+        showNotification={showNotification}
       />
     </div>
   )

@@ -2,11 +2,15 @@ import { useIntl } from "react-intl"
 
 import type { BlockProps } from "~/types/block.ts"
 import type { UserFormItem } from "~/types/formData.ts"
-
 import "./styles.css"
 import { postEvent, Utils } from "@tma.js/sdk"
 const utils = new Utils("7.0", () => Math.random().toString(), postEvent)
-export function InfoBlock({ tasks, blockTitle, blockPrefix }: BlockProps) {
+export function InfoBlock({
+  tasks,
+  blockTitle,
+  blockPrefix,
+  showNotification
+}: BlockProps) {
   const intl = useIntl()
 
   const shortenUrl = (url: string) => {
@@ -27,6 +31,9 @@ export function InfoBlock({ tasks, blockTitle, blockPrefix }: BlockProps) {
         utils.openLink(`https://tonviewer.com/${url}`)
       } else if (item.keyType === "phones" || item.keyType === "mails") {
         navigator.clipboard.writeText(url)
+        if (showNotification) {
+          showNotification(intl.formatMessage({ id: `notification_1` }))
+        }
       } else {
         utils.openLink(url)
       }
