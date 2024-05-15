@@ -40,7 +40,8 @@
     line-height: 22px;
     letter-spacing: -0.4000000059604645px;
     text-align: left;
-    color: var(--link-text-color)
+    color: var(--link-text-color);
+    cursor: pointer;
 }
 
 .item_text {

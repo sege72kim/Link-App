@@ -65,6 +65,12 @@ export function UserPage({ isEdit, setIsEdit, data, isOwner }: Props) {
       <InfoBlock tasks={data.phones} blockTitle="phones" blockPrefix="+" />
       <InfoBlock tasks={data.mails} blockTitle="mails" blockPrefix="" />
       <InfoBlock tasks={data.wallets} blockTitle="wallets" blockPrefix="" />
+
+      <button
+        onClick={() => {
+          console.log(pinnedItems)
+        }}
+      />
     </div>
   )
 }

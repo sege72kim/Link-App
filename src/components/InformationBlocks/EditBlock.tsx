@@ -103,11 +103,7 @@ export function EditBlock({
         })
 
         setInput("")
-        if (
-          blockTitle === "telegrams" ||
-          blockTitle === "socials" ||
-          blockTitle === "phones"
-        ) {
+        if (blockTitle === "socials" || blockTitle === "phones") {
           setInput1(blockPrefix)
         } else {
           setInput1("")
@@ -120,12 +116,15 @@ export function EditBlock({
     let { value } = event.target
     if (blockTitle === "telegrams" || blockTitle === "socials") {
       value = value.replace(/[^a-zA-Z0-9_]/g, "")
-      setInput1(`@${value}`)
+      setInput1(`${value}`)
     } else if (blockTitle === "phones") {
-      value = value.replace(/[^0-9]/g, "")
       if (value.length <= 16) {
+        value = value.replace(/[^0-9]/g, "")
         setInput1(`+${value}`)
       }
+    } else if (blockTitle === "links") {
+      value = value.replace(/[^A-Z0-9_!*.();:@&=+$,/?#[\]-]/g, "")
+      setInput1(`https://${value}`)
     } else {
       value = value.replace(/[^a-zA-Z0-9_!*.();:@&=+$,/?#[\]-]/g, "")
       setInput1(value)
