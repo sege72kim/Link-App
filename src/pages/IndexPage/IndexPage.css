@@ -25,3 +25,6 @@
 .index_page_container {
     padding-bottom: 40px;
 }
+::-webkit-scrollbar{
+    width: 0px;
+}
