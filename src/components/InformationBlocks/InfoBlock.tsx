@@ -5,25 +5,22 @@ import type { UserFormItem } from "~/types/formData.ts"
 import "./styles.css"
 import { postEvent, Utils } from "@tma.js/sdk"
 const utils = new Utils("7.0", () => Math.random().toString(), postEvent)
-export function InfoBlock({
-  tasks,
-  blockTitle,
-  blockPrefix,
-  showNotification
-}: BlockProps) {
+export function InfoBlock({ tasks, blockTitle, showNotification }: BlockProps) {
   const intl = useIntl()
 
-  const shortenUrl = (url: string) => {
-    if (blockTitle === "socials" || blockTitle === "links") {
-      const regex = /^(?:https?:\/\/)?(?:www\.)?(.*)$/
-      const match = url.match(regex)
-      if (match && match.length > 1) {
-        return match[1]
-      }
-    } else return url
-  }
   if (!tasks || tasks.length === 0) return null
   const renderTaskItem = (item: UserFormItem) => {
+    const shortenUrl = (url: string) => {
+      if (item.keyType === "socials" || item.keyType === "links") {
+        const regex = /^(?:https?:\/\/)?(?:www\.)?(.*)$/
+        const match = url.match(regex)
+        if (match && match.length > 1) {
+          return match[1]
+        }
+      } else if (item.keyType === "telegrams") {
+        return "@" + url
+      } else return url
+    }
     const urlClick = (url: string) => {
       if (item.keyType === "telegrams") {
         utils.openLink(`https://t.me/${url}`)
@@ -51,7 +48,6 @@ export function InfoBlock({
           <>
             <div className="item_title">{item.title}</div>
             <div className="item_url" onClick={() => urlClick(item.item)}>
-              {blockPrefix}
               {shortenUrl(item.item)}
             </div>
           </>

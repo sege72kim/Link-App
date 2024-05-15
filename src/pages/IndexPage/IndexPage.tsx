@@ -104,7 +104,8 @@ export const IndexPage: FC = () => {
             id: 2,
             title: "Study Account",
             item: "@Segega2",
-            pinned: true
+            pinned: true,
+            keyType: "telegrams"
           }
         ],
         socials: [
@@ -112,7 +113,8 @@ export const IndexPage: FC = () => {
             id: 1,
             title: "Inst",
             item: "@segega.k",
-            pinned: true
+            pinned: true,
+            keyType: "socials"
           },
           {
             id: 2,
@@ -127,13 +129,15 @@ export const IndexPage: FC = () => {
             id: 1,
             title: "Github",
             item: "https://github.com",
-            pinned: true
+            pinned: true,
+            keyType: "links"
           },
           {
             id: 2,
             title: "CodeSandbox",
             item: "https://chatgpt.com",
-            pinned: true
+            pinned: true,
+            keyType: "links"
           }
         ],
         phones: [

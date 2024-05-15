@@ -13,16 +13,16 @@
 }
 .share{
     position: absolute;
-top: 10px;
-right: 10px;
-background-color: rgba(0, 0, 0, 0.25);
-height: 38px;
-padding: 0 12px;
-align-items: center;
-display: flex;
-justify-content: center;
-border-radius: 25px;
-cursor: pointer;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(0, 0, 0, 0.25);
+    height: 38px;
+    padding: 0 12px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    border-radius: 25px;
+    cursor: pointer;
 }
 .user_names_block {
     margin-bottom: 16px;
@@ -45,10 +45,9 @@ cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0 auto;
+    margin: 0 4%;
     border-radius: 10px;
     height: 50px;
-    width: calc(100% - 20px);
     margin-top: 10px;
     background-color: var(--background-color-2);
     font-size: 17px;

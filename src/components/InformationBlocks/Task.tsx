@@ -93,7 +93,7 @@ function Task({
     }
   }
   const shortenUrl = (url: string) => {
-    if (blockTitle === "socials" || blockTitle === "links") {
+    if (keyType === "socials" || keyType === "links") {
       const regex = /^(?:https?:\/\/)?(?:www\.)?(.*)$/
       const match = url.match(regex)
       if (match && match.length > 1) {
@@ -117,8 +117,11 @@ function Task({
         <div className="item_edit_container">
           <div className="left_part" onClick={() => setModalActive(title + id)}>
             <div className="item_title">{title}</div>
-            {blockTitle === "telegrams" && <div>@</div>}
-            <div className="item_url">{shortenUrl(item)}</div>
+
+            <div className="item_url">
+              {keyType === "telegrams" && <div>@</div>}
+              {shortenUrl(item)}
+            </div>
           </div>
           <div className="right_part">
             <svg

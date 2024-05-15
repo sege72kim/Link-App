@@ -1,10 +1,10 @@
 .info_block_container {
-    margin: 0 10px;
+    margin: 0 4%;
     margin-top: 20px;
 }
 
 .info_block_container_edit {
-    margin: 0 10px;
+    margin: 0 4%;
     margin-top: 30px;
 }
 
@@ -42,6 +42,8 @@
     text-align: left;
     color: var(--link-text-color);
     cursor: pointer;
+    display: flex;
+    align-items: center;
 }
 
 .item_text {
