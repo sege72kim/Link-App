@@ -11,7 +11,23 @@ import { defaultUserFormData, type UserFormData } from "~/types/formData.ts"
 import { StartPage } from "../StartPage/StartPage"
 
 import "./IndexPage.css"
-import Notification from "~/components/InformationBlocks/Notification"
+
+function addKeyTypeIfArray(obj: UserFormData) {
+  Object.keys(obj).forEach((key) => {
+    // @ts-ignore
+    if (Array.isArray(obj[key])) {
+      // @ts-ignore
+      obj[key] = obj[key].map((element: any) => {
+        if (typeof element === "object" && element !== null) {
+          return { ...element, keyType: key }
+        }
+        return element
+      })
+    }
+  })
+
+  return obj
+}
 
 export const IndexPage: FC = () => {
   const intl = useIntl()
@@ -63,18 +79,17 @@ export const IndexPage: FC = () => {
       if (response.ok) {
         const responseData = await response.json()
 
-        setData(responseData)
-      } else setData(defaultUserFormData)
+        setData(addKeyTypeIfArray(responseData))
+      } else setData(addKeyTypeIfArray(defaultUserFormData))
     } catch (error) {
       setData({
         userId: 957008377,
-        image:
-          "https://img.freepik.com/free-photo/the-adorable-illustration-of-kittens-playing-in-the-forest-generative-ai_260559-483.jpg?size=338&ext=jpg&ga=GA1.1.44546679.1715644800&semt=ais_user",
+        image: "./images/camera.svg",
         name: "Sergye",
         username: "sergey728",
         about: {
           text: "About bruh",
-          pinned: false
+          pinned: true
         },
         telegrams: [
           {
