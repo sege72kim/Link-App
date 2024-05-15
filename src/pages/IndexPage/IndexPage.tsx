@@ -12,6 +12,23 @@ import { StartPage } from "../StartPage/StartPage"
 
 import "./IndexPage.css"
 
+function addKeyTypeIfArray(obj: UserFormData) {
+  Object.keys(obj).forEach((key) => {
+    // @ts-ignore
+    if (Array.isArray(obj[key])) {
+      // @ts-ignore
+      obj[key] = obj[key].map((element: any) => {
+        if (typeof element === "object" && element !== null) {
+          return { ...element, keyType: key }
+        }
+        return element
+      })
+    }
+  })
+
+  return obj
+}
+
 export const IndexPage: FC = () => {
   const intl = useIntl()
 
@@ -62,81 +79,83 @@ export const IndexPage: FC = () => {
       if (response.ok) {
         const responseData = await response.json()
 
-        setData(responseData)
-      } else setData(defaultUserFormData)
+        setData(addKeyTypeIfArray(responseData))
+      } else setData(addKeyTypeIfArray(defaultUserFormData))
     } catch (error) {
-      setData({
-        userId: 957008377,
-        image: "./images/camera.svg",
-        name: "Sergye",
-        username: "sergey728",
-        about: {
-          text: "About bruh",
-          pinned: true
-        },
-        telegrams: [
-          {
-            id: 1,
-            title: "Main",
-            item: "segega_k",
-            pinned: true,
-            keyType: "telegrams"
-          },
-          {
-            id: 2,
-            title: "Study Account",
-            item: "@Segega2",
-            pinned: true
-          }
-        ],
-        socials: [
-          {
-            id: 1,
-            title: "Inst",
-            item: "@segega.k",
-            pinned: true
-          },
-          {
-            id: 2,
-            title: "Steam",
-            item: "segega.k",
-            pinned: true,
-            keyType: "socials"
-          }
-        ],
-        links: [
-          {
-            id: 1,
-            title: "Github",
-            item: "https://github.com",
-            pinned: true
-          },
-          {
-            id: 2,
-            title: "CodeSandbox",
-            item: "https://chatgpt.com",
-            pinned: true
-          }
-        ],
-        phones: [
-          {
-            id: 1,
-            title: "Github",
-            item: "+9932013",
-            pinned: true,
-            keyType: "phones"
-          },
-          {
-            id: 2,
-            title: "MamaEbal",
-            item: "+34664231",
-            pinned: true,
-            keyType: "phones"
-          }
-        ],
-        mails: [],
-        wallets: []
-      })
+      setData(addKeyTypeIfArray(defaultUserFormData))
+      // setData({
+      //   userId: 957008377,
+      //   image: "./images/camera.svg",
+      //   name: "string",
+      //   username: "string",
+      //   about: {
+      //     text: "string3333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333",
+      //     pinned: true
+      //   },
+      //   telegrams: [
+      //     {
+      //       id: 1,
+      //       title: "tring",
+      //       item: "string",
+      //       pinned: true
+      //     },
+      //     {
+      //       id: 2,
+      //       title: "tring",
+      //       item: "string",
+      //       pinned: true
+      //     },
+      //     {
+      //       id: 3,
+      //       title: "tring",
+      //       item: "string",
+      //       pinned: true
+      //     }
+      //   ],
+      //   socials: [
+      //     {
+      //       id: 1,
+      //       title: "tring",
+      //       item: "string",
+      //       pinned: true
+      //     },
+      //     {
+      //       id: 2,
+      //       title: "tring",
+      //       item: "string",
+      //       pinned: true
+      //     },
+      //     {
+      //       id: 3,
+      //       title: "tring",
+      //       item: "string",
+      //       pinned: true
+      //     }
+      //   ],
+      //   links: [
+      //     {
+      //       id: 1,
+      //       title: "tring",
+      //       item: "string",
+      //       pinned: true
+      //     },
+      //     {
+      //       id: 2,
+      //       title: "tring",
+      //       item: "string",
+      //       pinned: true
+      //     },
+      //     {
+      //       id: 3,
+      //       title: "tring",
+      //       item: "string",
+      //       pinned: true
+      //     }
+      //   ],
+      //   phones: [],
+      //   mails: [],
+      //   wallets: []
+      // })
       console.error(error)
     }
   }

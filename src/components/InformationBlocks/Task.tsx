@@ -1,8 +1,7 @@
 import { useSortable } from "@dnd-kit/sortable"
 import { CSS } from "@dnd-kit/utilities"
-import React, { useEffect, useState } from "react"
+import React, { type ChangeEvent, useEffect, useState } from "react"
 import { FormattedMessage } from "react-intl"
-import type { ChangeEvent } from "react"
 
 import type { UserFormItem } from "~/types/formData.ts"
 

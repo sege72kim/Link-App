@@ -88,6 +88,7 @@ export function EditPage({
   }
 
   const [input1, setInput1] = useState("")
+  const [apiUsername, setApiUsername] = useState<undefined | number>(undefined)
 
   const handleChange = (
     type: string,
@@ -98,13 +99,22 @@ export function EditPage({
       updateData({ [type]: value })
     } else {
       let { value } = event.target
-      if (type === "username") {
-        value = value.replace(/[^a-zA-Z0-9_]/g, "")
-        setInput1(`@${value}`)
-        updateData({ [type]: value })
-      } else {
-        updateData({ [type]: value })
-      }
+
+      value = value.replace(/[^a-zA-Z0-9_]/g, "")
+      setInput1(`@${value}`)
+      updateData({ [type]: value })
+
+      fetch(
+        `${import.meta.env.VITE_API_URL}/isUsernameAvailable?username=${data.username}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${rawData}`
+          }
+        }
+      )
+        .then(() => setApiUsername(1))
+        .catch(() => setApiUsername(2))
     }
   }
 
@@ -163,6 +173,7 @@ export function EditPage({
             onChange={(event) => {
               const newUsername = event.target.value
               setUserText(newUsername)
+
               handleChange("username", event)
             }}
           />
@@ -176,29 +187,20 @@ export function EditPage({
             <FormattedMessage id="info_sub_2" />
           </div>
           <div style={{ color: "var(--link-text-color)" }}>
-            t.me/linksapp_bot/app?startApp=username
+            t.me/linksapp_bot/app?startApp={data.username}
           </div>
-          {/* После ввода  */}
-          <div style={{ color: "var(--link-text-color)" }}>
-            <FormattedMessage id="info_sub_3" />
-          </div>
-          {/* Доступно */}
-          <div style={{ color: "#31D158" }}>
-            @{userText}
-            <FormattedMessage id="info_sub_4" />
-          </div>
-          {/* Недоступно имя */}
-          <div style={{ color: "red" }}>
-            <FormattedMessage id="info_sub_5" />
-          </div>
-          {/* Уже взято */}
-          <div style={{ color: "red" }}>
-            <FormattedMessage id="info_sub_6" />
-          </div>
-          {/* Не состоит из 5 */}
-          <div style={{ color: "red" }}>
-            <FormattedMessage id="info_sub_7" />
-          </div>
+          {!apiUsername ? (
+            <div style={{ color: "var(--link-text-color)" }} />
+          ) : apiUsername === 2 ? (
+            <div style={{ color: "red" }}>
+              <FormattedMessage id="info_sub_6" />
+            </div>
+          ) : (
+            <div style={{ color: "#31D158" }}>
+              {userText}
+              <FormattedMessage id="info_sub_4" />
+            </div>
+          )}
         </div>
       </div>
 
