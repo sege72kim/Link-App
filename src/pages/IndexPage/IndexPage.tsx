@@ -11,6 +11,7 @@ import { defaultUserFormData, type UserFormData } from "~/types/formData.ts"
 import { StartPage } from "../StartPage/StartPage"
 
 import "./IndexPage.css"
+import Notification from "~/components/InformationBlocks/Notification"
 
 function addKeyTypeIfArray(obj: UserFormData) {
   Object.keys(obj).forEach((key) => {
