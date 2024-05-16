@@ -177,7 +177,7 @@
     background-color: var(--background-color-2);
     margin: 0 10px;
     padding: 16px;
-    
+
 }
 .modal_input_container input{
     font-size: 17px;
@@ -187,10 +187,11 @@
     text-align: left;
     border: 0;
     outline: 0;
+    width: 80%;
     color: var(--color);
     font-family: "SF Pro";
     background-color: var(--background-color-2);
-    
+
 }
 .input_title_2{
     display:flex;

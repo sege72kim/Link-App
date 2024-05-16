@@ -1,13 +1,13 @@
 import {
   closestCorners,
   DndContext,
+  type DragEndEvent,
   KeyboardSensor,
   PointerSensor,
   useSensor,
   useSensors
 } from "@dnd-kit/core"
 import {
-  arrayMove,
   SortableContext,
   sortableKeyboardCoordinates,
   verticalListSortingStrategy
@@ -59,7 +59,10 @@ export function EditBlock({
   const updateTaskData = (value: UserFormItem) => {
     if (!updateData) return
 
-    if (value.pinned && value.pinnedId === -1) value.pinnedId = lastPinnedId + 1
+    if (value.pinned && value.pinnedId === -1)
+      // eslint-disable-next-line no-param-reassign
+      value.pinnedId = lastPinnedId ? 0 : 1 + 1
+    // eslint-disable-next-line no-param-reassign
     else if (!value.pinned) delete value.pinnedId
 
     updateData({
@@ -77,33 +80,49 @@ export function EditBlock({
     })
   }
 
-  const handleDragEnd = ({ active, over }: any) => {
-    if (!updateData) return
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event
+
+    if (!updateData || !over) return
 
     if (active.id !== over.id) {
-      const oldIndex = tasks.findIndex((item) =>
-        item.pinnedId && item.pinnedId
-          ? active.pinnedId === item.pinnedId
-          : item.id === active.id
-      )
-      const newIndex = tasks.findIndex((item) =>
-        item.pinnedId && item.pinnedId
-          ? over.pinnedId === item.pinnedId
-          : item.id === over.id
-      )
-      const newTasks = arrayMove(tasks, oldIndex, newIndex)
+      const oldIndex = tasks.findIndex((item) => item.id === active.id)
+      const newIndex = tasks.findIndex((item) => item.id === over.id)
 
-      // Reassign IDs and update pinned IDs if necessary
-      const updatedTasks = newTasks.map((task, index) => {
-        const updatedTask = { ...task, id: index }
-        if (task.pinned) {
-          updatedTask.pinnedId = index
-        }
-        return updatedTask
-      })
+      const updatedTasks = [...tasks]
+
+      // Update id or pinnedId based on blockTitle
+      if (blockTitle !== "main") {
+        const [movedTask] = updatedTasks.splice(oldIndex, 1)
+        updatedTasks.splice(newIndex, 0, movedTask)
+
+        // Update ids to reflect the new order
+        updatedTasks.forEach((task, index) => {
+          // eslint-disable-next-line no-param-reassign
+          task.id = index
+        })
+      } else {
+        const [movedTask] = updatedTasks.splice(oldIndex, 1)
+        updatedTasks.splice(newIndex, 0, movedTask)
+
+        // Update pinnedIds to reflect the new order
+        updatedTasks.forEach((task, index) => {
+          // eslint-disable-next-line no-param-reassign
+          task.pinnedId = index
+        })
+      }
+
+      // Sort tasks by id or pinnedId
+      const sortedTasks = [...updatedTasks].sort((a, b) =>
+        blockTitle !== "main"
+          ? a.id - b.id
+          : (a.pinnedId ?? 0) - (b.pinnedId ?? 0)
+      )
+
+      const task = tasks.find((item) => item.id === over.id)
 
       updateData({
-        [over.keyType || blockTitle]: updatedTasks
+        [task?.keyType || blockTitle]: sortedTasks
       })
     }
   }
@@ -118,13 +137,14 @@ export function EditBlock({
     if (!modalActive) {
       if (input && input1 && updateData) {
         const newTask = {
-          id: tasks.length ? tasks[tasks.length - 1].id + 1 : 0,
+          id: tasks.length ? tasks[tasks.length - 1].id + 1 : 1,
           title: input,
           item: input1,
           pinned: false,
           pinnedId: -1,
           keyType: blockTitle
         }
+
         updateData({
           [blockTitle]: [...tasks, newTask]
         })
@@ -186,7 +206,9 @@ export function EditBlock({
     }
 
     const sortedTasks = [...tasks].sort((a, b) =>
-      a.pinnedId && b.pinnedId ? a.pinnedId - b.pinnedId : a.id - b.id
+      blockTitle !== "main"
+        ? a.id - b.id
+        : (a.pinnedId ?? 0) - (b.pinnedId ?? 0)
     )
 
     return (

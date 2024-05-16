@@ -63,6 +63,7 @@ export function EditPage({
   const pinnedItems: UserFormItem[] = useMemo(
     () =>
       Object.entries(data).reduce<UserFormItem[]>(
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         (accumulator, [_, currentValue]) => {
           if (Array.isArray(currentValue)) {
             const pinnedArrayItems = currentValue
@@ -100,10 +101,9 @@ export function EditPage({
 
       value = value.replace(/[^a-zA-Z0-9_]/g, "")
       setInput1(`${value}`)
-      updateData({ [type]: value })
 
       fetch(
-        `${import.meta.env.VITE_API_URL}/isUsernameAvailable?username=${data.username}`,
+        `${import.meta.env.VITE_API_URL}/isUsernameAvailable?username=${value}`,
         {
           method: "GET",
           headers: {
@@ -111,7 +111,10 @@ export function EditPage({
           }
         }
       )
-        .then(() => setApiUsername(1))
+        .then(() => {
+          updateData({ [type]: value })
+          setApiUsername(1)
+        })
         .catch(() => setApiUsername(2))
     }
   }
@@ -127,6 +130,7 @@ export function EditPage({
   const handleInputBlur = () => {
     setInputActive(false)
   }
+
   return (
     <div className="edit_page">
       <div className="avatar_picking" onClick={handleButtonClick}>
@@ -175,7 +179,7 @@ export function EditPage({
           <input
             type="text"
             placeholder="username"
-            value={input1}
+            value={data.username || input1}
             className={inputActive ? "input_bar active" : "input_bar"}
             onFocus={handleInputFocus}
             onBlur={handleInputBlur}

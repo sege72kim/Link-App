@@ -116,7 +116,14 @@ function Task({
     <div ref={setNodeRef} style={style} {...attributes} className="task">
       <div className="item_container">
         <div className="item_edit_container">
-          <div className="left_part" onClick={() => setModalActive(title + id)}>
+          <div
+            className="left_part"
+            onClick={() => {
+              if (blockTitle === "main") return
+
+              setModalActive(title + id)
+            }}
+          >
             <div className="item_title">{title}</div>
 
             <div className="item_url">

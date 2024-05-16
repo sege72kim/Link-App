@@ -4,6 +4,7 @@ import { useIntl } from "react-intl"
 // eslint-disable-next-line no-duplicate-imports
 import type { FC } from "react"
 
+import Notification from "~/components/InformationBlocks/Notification"
 import { EditPage } from "~/pages/EditPage/EditPage.tsx"
 import { UserPage } from "~/pages/UserPage/UserPage.tsx"
 import { defaultUserFormData, type UserFormData } from "~/types/formData.ts"
@@ -11,13 +12,13 @@ import { defaultUserFormData, type UserFormData } from "~/types/formData.ts"
 import { StartPage } from "../StartPage/StartPage"
 
 import "./IndexPage.css"
-import Notification from "~/components/InformationBlocks/Notification"
 
 function addKeyTypeIfArray(obj: UserFormData) {
   Object.keys(obj).forEach((key) => {
     // @ts-ignore
     if (Array.isArray(obj[key])) {
       // @ts-ignore
+      // eslint-disable-next-line no-param-reassign
       obj[key] = obj[key].map((element: any) => {
         if (typeof element === "object" && element !== null) {
           return { ...element, keyType: key }
@@ -83,82 +84,8 @@ export const IndexPage: FC = () => {
         setData(addKeyTypeIfArray(responseData))
       } else setData(addKeyTypeIfArray(defaultUserFormData))
     } catch (error) {
-      setData({
-        userId: 957008377,
-        image: "./images/camera.svg",
-        name: "Sergye",
-        username: "sergey728",
-        about: {
-          text: "About bruh",
-          pinned: true
-        },
-        telegrams: [
-          {
-            id: 1,
-            title: "Main",
-            item: "segega_k",
-            pinned: true,
-            keyType: "telegrams"
-          },
-          {
-            id: 2,
-            title: "Study Account",
-            item: "@Segega2",
-            pinned: true,
-            keyType: "telegrams"
-          }
-        ],
-        socials: [
-          {
-            id: 1,
-            title: "Inst",
-            item: "@segega.k",
-            pinned: true,
-            keyType: "socials"
-          },
-          {
-            id: 2,
-            title: "Steam",
-            item: "segega.k",
-            pinned: true,
-            keyType: "socials"
-          }
-        ],
-        links: [
-          {
-            id: 1,
-            title: "Github",
-            item: "https://github.com",
-            pinned: true,
-            keyType: "links"
-          },
-          {
-            id: 2,
-            title: "CodeSandbox",
-            item: "https://chatgpt.com",
-            pinned: true,
-            keyType: "links"
-          }
-        ],
-        phones: [
-          {
-            id: 1,
-            title: "Github",
-            item: "+9932013",
-            pinned: true,
-            keyType: "phones"
-          },
-          {
-            id: 2,
-            title: "MamaEbal",
-            item: "+34664231",
-            pinned: true,
-            keyType: "phones"
-          }
-        ],
-        mails: [],
-        wallets: []
-      })
+      setData(addKeyTypeIfArray(defaultUserFormData))
+
       console.error(error)
     }
   }
