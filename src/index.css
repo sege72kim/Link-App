@@ -22,6 +22,7 @@ body {
         --sub-text-color-2: #A2ACB0;
         --line-fill: #000000;
         --delete-button-color: rgba(241, 46, 46, 0.05);
+        --sabaka-color: #868686;
         color: black
     }
 }
@@ -35,6 +36,7 @@ body {
         --sub-text-color: #AAAAAA;
         --sub-text-color-2: #78797E;
         --line-fill: #ffffff;
+        --sabaka-color: #AAAAAA;
         --delete-button-color: rgba(241, 46, 46, 0.20);
         color: white;
     }

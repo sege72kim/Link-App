@@ -174,7 +174,15 @@ export function EditPage({
       <div className="info_container">
         <div className="info_title" />
         <div className="input_wrapper">
-          <div>@</div>
+          <div
+            style={
+              input1
+                ? { color: "var(--color)" }
+                : { color: "var(--sabaka-color)" }
+            }
+          >
+            @
+          </div>
           <input
             type="text"
             placeholder="username"
@@ -261,7 +269,7 @@ export function EditPage({
       <EditBlock
         tasks={data.telegrams}
         blockTitle="telegrams"
-        blockPrefix="Username"
+        blockPrefix=""
         modalActive={modalActive}
         setModalActive={setModalActive}
         updateData={updateData}
@@ -270,7 +278,7 @@ export function EditPage({
       <EditBlock
         tasks={data.socials}
         blockTitle="socials"
-        blockPrefix="Link"
+        blockPrefix="https://"
         modalActive={modalActive}
         setModalActive={setModalActive}
         updateData={updateData}
@@ -279,7 +287,7 @@ export function EditPage({
       <EditBlock
         tasks={data.links}
         blockTitle="links"
-        blockPrefix="Link"
+        blockPrefix="https://"
         modalActive={modalActive}
         setModalActive={setModalActive}
         updateData={updateData}
@@ -297,7 +305,7 @@ export function EditPage({
       <EditBlock
         tasks={data.mails}
         blockTitle="mails"
-        blockPrefix="Mail"
+        blockPrefix="example@example.com"
         modalActive={modalActive}
         setModalActive={setModalActive}
         updateData={updateData}
@@ -306,7 +314,7 @@ export function EditPage({
       <EditBlock
         tasks={data.wallets}
         blockTitle="wallets"
-        blockPrefix="Wallet"
+        blockPrefix={intl.formatMessage({ id: `wallet_addres` })}
         modalActive={modalActive}
         setModalActive={setModalActive}
         updateData={updateData}

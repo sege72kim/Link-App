@@ -39,7 +39,9 @@ export const messages = {
     save: "Save",
     delete: "Delete",
     notification_1: "Copied to clipboard",
-    share: "Share"
+    share: "Share",
+    title: "Title",
+    wallet_addres: "Wallet Address"
   } as Record<string, string>,
   [LOCALES.RUSSIAN]: {
     text_1:
@@ -80,6 +82,8 @@ export const messages = {
     save: "Сохранить",
     delete: "Удалить",
     notification_1: "Скопировано в буфер обмена",
-    share: "Поделиться"
+    share: "Поделиться",
+    title: "Заголовок",
+    wallet_addres: "Адресс кошелька"
   }
 }

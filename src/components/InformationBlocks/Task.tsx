@@ -1,6 +1,6 @@
 import { useSortable } from "@dnd-kit/sortable"
 import { CSS } from "@dnd-kit/utilities"
-import React, { type ChangeEvent, useEffect, useState } from "react"
+import React, { type ChangeEvent, useEffect, useState, useRef } from "react"
 import { FormattedMessage } from "react-intl"
 
 import type { UserFormItem } from "~/types/formData.ts"
@@ -36,13 +36,27 @@ function Task({
 }) {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id })
-
+  const blockRef = useRef<HTMLDivElement>(null)
   const [input, setInput] = useState(title)
   const [input1, setInput1] = useState(item)
+  useEffect(() => {
+    const blockElement = blockRef.current
+    const preventScroll = (event: TouchEvent) => event.preventDefault()
+
+    blockElement?.addEventListener("touchmove", preventScroll, {
+      passive: false
+    })
+
+    return () => blockElement?.removeEventListener("touchmove", preventScroll)
+  }, [])
 
   useEffect(() => {
     if (!modalActive) {
-      if (input !== title && input1 !== item) {
+      if (
+        input !== title &&
+        input1 !== item &&
+        (input !== "" || input1 !== "")
+      ) {
         updateTaskData({
           title: input,
           item: input1,
@@ -131,7 +145,7 @@ function Task({
               {shortenUrl(item)}
             </div>
           </div>
-          <div className="right_part">
+          <div className="right_part" ref={blockRef}>
             <svg
               width="20"
               height="20"
@@ -162,7 +176,6 @@ function Task({
             />
           </div>
         </div>
-        <div className="fill_line" />
       </div>
       <Modal active={modalActive === title + id} setActive={setModalActive}>
         <div className="modal_top">
@@ -185,9 +198,8 @@ function Task({
           </div>
           <div className="fill_line_2" />
           <div className="input_title_2">
-            {inputActive && blockTitle === "telegrams" && <div>@</div>}
-            {input1 && blockTitle === "telegrams" && !inputActive && (
-              <div>@</div>
+            {blockTitle === "telegrams" && (
+              <div className="tg_prefix">t.me/</div>
             )}
             <input
               type="text"

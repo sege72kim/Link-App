@@ -12,7 +12,7 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy
 } from "@dnd-kit/sortable"
-import React, { type ChangeEvent, useEffect, useRef, useState } from "react"
+import React, { type ChangeEvent, useEffect, useState } from "react"
 import { FormattedMessage, useIntl } from "react-intl"
 
 import type { BlockProps } from "~/types/block.ts"
@@ -38,23 +38,11 @@ export function EditBlock({
   lastPinnedId: number
 }) {
   const intl = useIntl()
-  const blockRef = useRef<HTMLDivElement>(null)
 
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
   )
-
-  useEffect(() => {
-    const blockElement = blockRef.current
-    const preventScroll = (event: TouchEvent) => event.preventDefault()
-
-    blockElement?.addEventListener("touchmove", preventScroll, {
-      passive: false
-    })
-
-    return () => blockElement?.removeEventListener("touchmove", preventScroll)
-  }, [])
 
   const updateTaskData = (value: UserFormItem) => {
     if (!updateData) return
@@ -128,8 +116,16 @@ export function EditBlock({
   }
 
   const http = "https://"
+  const plus = "+"
   const initialState =
-    blockTitle === "links" ? http : blockTitle === "socials" ? http : ""
+    blockTitle === "links"
+      ? http
+      : blockTitle === "socials"
+        ? http
+        : blockTitle === "phones"
+          ? plus
+          : ""
+
   const [input, setInput] = useState("")
   const [input1, setInput1] = useState(initialState)
 
@@ -166,8 +162,8 @@ export function EditBlock({
       setInput1(value)
     } else if (blockTitle === "phones") {
       if (value.length <= 16) {
-        value = value.replace(/[^0-9]/g, "")
-        setInput1(`+${value}`)
+        value = value.replace(/[^0-9+]/g, "")
+        setInput1(`${value}`)
       }
     } else {
       value = value.replace(/[^a-zA-Z0-9_!*.();:@&=+$,/?#[\]-]/g, "")
@@ -192,8 +188,12 @@ export function EditBlock({
           onClick={() => setModalActive(blockTitle)}
         >
           <div className="add_button">
-            <div className="plus">+</div>
-            <FormattedMessage id="add" />
+            <div className="plus">
+              <div>+</div>
+            </div>
+            <div className="plus_text">
+              <FormattedMessage id="add" />
+            </div>
           </div>
         </div>
       )
@@ -223,23 +223,26 @@ export function EditBlock({
             strategy={verticalListSortingStrategy}
           >
             {sortedTasks.map((item) => (
-              <Task
-                key={item.id}
-                id={item.id}
-                title={item.title}
-                item={item.item}
-                keyType={item.keyType}
-                pinned={item.pinned}
-                blockSubTitle={intl.formatMessage({
-                  id: `sub_block_${blockTitle}`
-                })}
-                blockTitle={blockTitle}
-                blockPrefix={blockPrefix}
-                updateTaskData={updateTaskData}
-                deleteTask={deleteTask}
-                modalActive={modalActive}
-                setModalActive={setModalActive}
-              />
+              <div className="task_container">
+                <Task
+                  key={item.id}
+                  id={item.id}
+                  title={item.title}
+                  item={item.item}
+                  keyType={item.keyType}
+                  pinned={item.pinned}
+                  blockSubTitle={intl.formatMessage({
+                    id: `sub_block_${blockTitle}`
+                  })}
+                  blockTitle={blockTitle}
+                  blockPrefix={blockPrefix}
+                  updateTaskData={updateTaskData}
+                  deleteTask={deleteTask}
+                  modalActive={modalActive}
+                  setModalActive={setModalActive}
+                />
+                <div className="fill_line" />
+              </div>
             ))}
             {renderAddButton()}
           </SortableContext>
@@ -251,7 +254,7 @@ export function EditBlock({
   if (blockTitle === "main" && !tasks.length) return null
 
   return (
-    <div className="info_block_container_edit" ref={blockRef}>
+    <div className="info_block_container_edit">
       <div className="block_title">
         {intl.formatMessage({ id: `block_${blockTitle}` })}
       </div>
@@ -263,7 +266,9 @@ export function EditBlock({
         <div className="modal_top">
           <div>
             <div className="modal_top_line" />
-            <div className="modal_top_text">{blockTitle}</div>
+            <div className="modal_top_text">
+              {intl.formatMessage({ id: `block_${blockTitle}` })}
+            </div>
           </div>
         </div>
         <div
@@ -281,14 +286,16 @@ export function EditBlock({
           <div className="input_title_2">
             <input
               type="text"
-              placeholder="Title"
+              placeholder={intl.formatMessage({ id: `title` })}
               value={input}
               onChange={(e) => setInput(e.target.value)}
             />
           </div>
           <div className="fill_line_2" />
           <div className="input_title_2">
-            {blockTitle === "telegrams" && <div>@</div>}
+            {blockTitle === "telegrams" && (
+              <div className="tg_prefix">t.me/</div>
+            )}
             <input
               type="text"
               placeholder={blockPrefix}
@@ -297,7 +304,6 @@ export function EditBlock({
               className={inputActive ? "active" : ""}
               onFocus={handleInputFocus}
               onBlur={handleInputBlur}
-              style={{ paddingLeft: "0" }}
             />
           </div>
         </div>
