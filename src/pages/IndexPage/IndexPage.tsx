@@ -174,9 +174,15 @@ export const IndexPage: FC = () => {
       ) : isFetched ? (
         <StartPage />
       ) : (
-        <div className="loading">
-          <img src="/images/loading.svg" alt="" />
-        </div>
+        <EditPage
+          data={data}
+          updateData={updateData}
+          modalActive={modalActive}
+          setModalActive={setModalActive}
+        />
+        // // <div className="loading">
+        // //   <img src="/images/loading.svg" alt="" />
+        // // </div>
       )}
       <Notification isActive={isNotificationActive} text={textNotification} />
     </div>

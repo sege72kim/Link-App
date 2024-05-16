@@ -161,7 +161,7 @@ export function EditBlock({
       value = value.replace(/[^a-zA-Z0-9_]/g, "")
       setInput1(value)
     } else if (blockTitle === "phones") {
-      if (value.length <= 16) {
+      if (value.length <= 16 && value.length >= 1) {
         value = value.replace(/[^0-9+]/g, "")
         setInput1(`${value}`)
       }
