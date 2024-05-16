@@ -1,9 +1,11 @@
+import { postEvent, Utils } from "@tma.js/sdk"
 import { useIntl } from "react-intl"
 
 import type { BlockProps } from "~/types/block.ts"
 import type { UserFormItem } from "~/types/formData.ts"
+
 import "./styles.css"
-import { postEvent, Utils } from "@tma.js/sdk"
+
 const utils = new Utils("7.0", () => Math.random().toString(), postEvent)
 export function InfoBlock({ tasks, blockTitle, showNotification }: BlockProps) {
   const intl = useIntl()
@@ -18,12 +20,12 @@ export function InfoBlock({ tasks, blockTitle, showNotification }: BlockProps) {
           return match[1]
         }
       } else if (item.keyType === "telegrams") {
-        return "@" + url
+        return `@${url}`
       } else return url
     }
     const urlClick = (url: string) => {
       if (item.keyType === "telegrams") {
-        utils.openLink(`https://t.me/${url}`)
+        utils.openTelegramLink(`https://t.me/${url}`)
       } else if (item.keyType === "wallets") {
         utils.openLink(`https://tonviewer.com/${url}`)
       } else if (item.keyType === "phones" || item.keyType === "mails") {

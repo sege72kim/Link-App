@@ -101,6 +101,7 @@ export function EditPage({
 
       value = value.replace(/[^a-zA-Z0-9_]/g, "")
       setInput1(`${value}`)
+      updateData({ [type]: value })
 
       fetch(
         `${import.meta.env.VITE_API_URL}/isUsernameAvailable?username=${value}`,
@@ -111,10 +112,7 @@ export function EditPage({
           }
         }
       )
-        .then(() => {
-          updateData({ [type]: value })
-          setApiUsername(1)
-        })
+        .then(() => setApiUsername(1))
         .catch(() => setApiUsername(2))
     }
   }

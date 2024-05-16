@@ -106,9 +106,12 @@ export const IndexPage: FC = () => {
     }
 
     const use = () => {
+      console.log("use", modalActive, data.username)
       if (modalActive) setModalActive("")
       else if (data.username) {
         void saveData(data)
+
+        setIsEdit(false)
       } else setIsEdit(true)
     }
 

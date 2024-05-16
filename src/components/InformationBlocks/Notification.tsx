@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-import { FormattedMessage } from "react-intl"
 
 import "./styles.css"
 
