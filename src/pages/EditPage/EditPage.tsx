@@ -163,6 +163,7 @@ export function EditPage({
           <input
             className="input_bar"
             type="text"
+            value={data.name}
             placeholder={intl.formatMessage({ id: "input_1" })}
             onChange={(event) => {
               handleChange("name", event)

@@ -41,6 +41,7 @@ export const IndexPage: FC = () => {
   const [isEdit, setIsEdit] = useState(false)
   const [modalActive, setModalActive] = useState("")
   const [data, setData] = useState<UserFormData>({} as UserFormData)
+  const [isFetched, setIsFetched] = useState(false)
 
   const saveDataToLocalStorage = (dataToSave: UserFormData) => {
     localStorage.setItem("user_data", JSON.stringify(dataToSave))
@@ -83,6 +84,8 @@ export const IndexPage: FC = () => {
 
         setData(addKeyTypeIfArray(responseData))
       } else setData(addKeyTypeIfArray(defaultUserFormData))
+
+      setIsFetched(true)
     } catch (error) {
       setData(addKeyTypeIfArray(defaultUserFormData))
 
@@ -168,8 +171,10 @@ export const IndexPage: FC = () => {
           isOwner={data.userId === initData?.user?.id}
           showNotification={showNotification}
         />
-      ) : (
+      ) : isFetched ? (
         <StartPage />
+      ) : (
+        <div>Loading...</div>
       )}
       <Notification isActive={isNotificationActive} text={textNotification} />
     </div>
