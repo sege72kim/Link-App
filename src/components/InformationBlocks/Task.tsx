@@ -62,6 +62,7 @@ function Task({
       item: input1,
       keyType,
       pinned: !pinned,
+      pinnedId: -1,
       id
     })
   }
@@ -178,7 +179,7 @@ function Task({
           <div className="fill_line_2" />
           <div className="input_title_2">
             {inputActive && blockTitle === "telegrams" && <div>@</div>}
-            {input1 && blockTitle === "telegrams" && inputActive === false && (
+            {input1 && blockTitle === "telegrams" && !inputActive && (
               <div>@</div>
             )}
             <input

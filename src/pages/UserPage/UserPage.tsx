@@ -1,3 +1,4 @@
+import { postEvent, Utils } from "@tma.js/sdk"
 import { FormattedMessage } from "react-intl"
 
 import { AboutBlock } from "~/components/InformationBlocks/AboutBlock"
@@ -13,6 +14,8 @@ interface Props {
   isOwner: boolean
   showNotification: (value: string) => void
 }
+
+const utils = new Utils("7.0", () => Math.random().toString(), postEvent)
 
 export function UserPage({
   isEdit,
@@ -49,7 +52,14 @@ export function UserPage({
           width: "100%"
         }}
       >
-        <div className="share">
+        <div
+          className="share"
+          onClick={() =>
+            utils.openTelegramLink(
+              `https://t.me/share/url?url=t.me/linksappbot/app?startApp=${data.username}`
+            )
+          }
+        >
           <div className="share_button">
             <FormattedMessage id="share" />
           </div>

@@ -30,10 +30,12 @@ export function EditBlock({
   blockPrefix,
   updateData,
   modalActive,
-  setModalActive
+  setModalActive,
+  lastPinnedId
 }: BlockProps & {
   modalActive: string
   setModalActive: React.Dispatch<React.SetStateAction<string>>
+  lastPinnedId: number
 }) {
   const intl = useIntl()
   const blockRef = useRef<HTMLDivElement>(null)
@@ -57,6 +59,9 @@ export function EditBlock({
   const updateTaskData = (value: UserFormItem) => {
     if (!updateData) return
 
+    if (value.pinned && value.pinnedId === -1) value.pinnedId = lastPinnedId + 1
+    else if (!value.pinned) delete value.pinnedId
+
     updateData({
       [value.keyType || blockTitle]: tasks.map((item) =>
         item.id === value.id ? value : item
@@ -76,15 +81,33 @@ export function EditBlock({
     if (!updateData) return
 
     if (active.id !== over.id) {
+      const oldIndex = tasks.findIndex((item) =>
+        item.pinnedId && item.pinnedId
+          ? active.pinnedId === item.pinnedId
+          : item.id === active.id
+      )
+      const newIndex = tasks.findIndex((item) =>
+        item.pinnedId && item.pinnedId
+          ? over.pinnedId === item.pinnedId
+          : item.id === over.id
+      )
+      const newTasks = arrayMove(tasks, oldIndex, newIndex)
+
+      // Reassign IDs and update pinned IDs if necessary
+      const updatedTasks = newTasks.map((task, index) => {
+        const updatedTask = { ...task, id: index }
+        if (task.pinned) {
+          updatedTask.pinnedId = index
+        }
+        return updatedTask
+      })
+
       updateData({
-        [active.key || blockTitle]: arrayMove(
-          tasks,
-          tasks.findIndex((item) => item.id === active.id),
-          tasks.findIndex((item) => item.id === over.id)
-        )
+        [over.keyType || blockTitle]: updatedTasks
       })
     }
   }
+
   const http = "https://"
   const initialState =
     blockTitle === "links" ? http : blockTitle === "socials" ? http : ""
@@ -98,7 +121,9 @@ export function EditBlock({
           id: tasks.length ? tasks[tasks.length - 1].id + 1 : 0,
           title: input,
           item: input1,
-          pinned: false
+          pinned: false,
+          pinnedId: -1,
+          keyType: blockTitle
         }
         updateData({
           [blockTitle]: [...tasks, newTask]
@@ -138,6 +163,7 @@ export function EditBlock({
   const handleInputBlur = () => {
     setInputActive(false)
   }
+
   const renderAddButton = () => {
     if ((tasks.length !== 5 || tasks.length < 5) && blockTitle !== "main") {
       return (
@@ -159,6 +185,10 @@ export function EditBlock({
       return <div className="info_block">{renderAddButton()}</div>
     }
 
+    const sortedTasks = [...tasks].sort((a, b) =>
+      a.pinnedId && b.pinnedId ? a.pinnedId - b.pinnedId : a.id - b.id
+    )
+
     return (
       <DndContext
         sensors={sensors}
@@ -166,8 +196,11 @@ export function EditBlock({
         collisionDetection={closestCorners}
       >
         <div className="info_block">
-          <SortableContext items={tasks} strategy={verticalListSortingStrategy}>
-            {tasks.map((item) => (
+          <SortableContext
+            items={sortedTasks}
+            strategy={verticalListSortingStrategy}
+          >
+            {sortedTasks.map((item) => (
               <Task
                 key={item.id}
                 id={item.id}
@@ -233,10 +266,7 @@ export function EditBlock({
           </div>
           <div className="fill_line_2" />
           <div className="input_title_2">
-            {inputActive && blockTitle === "telegrams" && <div>@</div>}
-            {input1 && blockTitle === "telegrams" && inputActive === false && (
-              <div>@</div>
-            )}
+            {blockTitle === "telegrams" && <div>@</div>}
             <input
               type="text"
               placeholder={blockPrefix}
@@ -245,6 +275,7 @@ export function EditBlock({
               className={inputActive ? "active" : ""}
               onFocus={handleInputFocus}
               onBlur={handleInputBlur}
+              style={{ paddingLeft: "0" }}
             />
           </div>
         </div>

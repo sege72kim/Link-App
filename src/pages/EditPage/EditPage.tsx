@@ -63,19 +63,15 @@ export function EditPage({
   const pinnedItems: UserFormItem[] = useMemo(
     () =>
       Object.entries(data).reduce<UserFormItem[]>(
-        (accumulator, [key, currentValue]) => {
+        (accumulator, [_, currentValue]) => {
           if (Array.isArray(currentValue)) {
             const pinnedArrayItems = currentValue
               .filter((item) => item.pinned)
-              .map((item) => ({ ...item, keyType: key }))
+              .map((item) => ({ ...item }))
 
             accumulator.push(...pinnedArrayItems)
-          } else if (
-            typeof currentValue === "object" &&
-            currentValue?.pinned === true
-          ) {
-            accumulator.push({ ...currentValue, keyType: key, id: 0 })
           }
+
           return accumulator
         },
         []
@@ -97,6 +93,8 @@ export function EditPage({
     if (type === "about") {
       const value = { text: event.target.value, pinned: data.about?.pinned }
       updateData({ [type]: value })
+    } else if (type === "name") {
+      updateData({ [type]: event.target.value })
     } else {
       let { value } = event.target
 
@@ -173,8 +171,7 @@ export function EditPage({
       <div className="info_container">
         <div className="info_title" />
         <div className="input_wrapper">
-          {inputActive && <div>@</div>}
-          {input1 && !inputActive && <div>@</div>}
+          <div>@</div>
           <input
             type="text"
             placeholder="username"
@@ -256,6 +253,7 @@ export function EditPage({
         modalActive={modalActive}
         setModalActive={setModalActive}
         updateData={updateData}
+        lastPinnedId={pinnedItems[pinnedItems.length - 1]?.id}
       />
       <EditBlock
         tasks={data.telegrams}
@@ -264,6 +262,7 @@ export function EditPage({
         modalActive={modalActive}
         setModalActive={setModalActive}
         updateData={updateData}
+        lastPinnedId={pinnedItems[pinnedItems.length - 1]?.id}
       />
       <EditBlock
         tasks={data.socials}
@@ -272,6 +271,7 @@ export function EditPage({
         modalActive={modalActive}
         setModalActive={setModalActive}
         updateData={updateData}
+        lastPinnedId={pinnedItems[pinnedItems.length - 1]?.id}
       />
       <EditBlock
         tasks={data.links}
@@ -280,6 +280,7 @@ export function EditPage({
         modalActive={modalActive}
         setModalActive={setModalActive}
         updateData={updateData}
+        lastPinnedId={pinnedItems[pinnedItems.length - 1]?.id}
       />
       <EditBlock
         tasks={data.phones}
@@ -288,6 +289,7 @@ export function EditPage({
         modalActive={modalActive}
         setModalActive={setModalActive}
         updateData={updateData}
+        lastPinnedId={pinnedItems[pinnedItems.length - 1]?.id}
       />
       <EditBlock
         tasks={data.mails}
@@ -296,6 +298,7 @@ export function EditPage({
         modalActive={modalActive}
         setModalActive={setModalActive}
         updateData={updateData}
+        lastPinnedId={pinnedItems[pinnedItems.length - 1]?.id}
       />
       <EditBlock
         tasks={data.wallets}
@@ -304,9 +307,8 @@ export function EditPage({
         modalActive={modalActive}
         setModalActive={setModalActive}
         updateData={updateData}
+        lastPinnedId={pinnedItems[pinnedItems.length - 1]?.id}
       />
     </div>
   )
-
-  // <PinnedBlock tasks={[]} blockTitle="main" blockPrefix="" />
 }
