@@ -207,7 +207,7 @@ export function EditPage({
             <FormattedMessage id="info_sub_2" />
           </div>
           <div style={{ color: "var(--link-text-color)" }}>
-            t.me/linksapp_bot/app?startApp={data.username}
+            t.me/linksapp_bot/app?startapp={data.username}
           </div>
           {!apiUsername ? (
             <div style={{ color: "var(--link-text-color)" }} />

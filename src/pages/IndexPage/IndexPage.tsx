@@ -1,8 +1,6 @@
 import { useInitData, useInitDataRaw, useMainButton } from "@tma.js/sdk-react"
-import { useEffect, useState } from "react"
+import { type FC, useEffect, useState } from "react"
 import { useIntl } from "react-intl"
-// eslint-disable-next-line no-duplicate-imports
-import type { FC } from "react"
 
 import Notification from "~/components/InformationBlocks/Notification"
 import { EditPage } from "~/pages/EditPage/EditPage.tsx"
@@ -87,6 +85,7 @@ export const IndexPage: FC = () => {
 
       setIsFetched(true)
     } catch (error) {
+      setIsFetched(true)
       setData(addKeyTypeIfArray(defaultUserFormData))
 
       console.error(error)
@@ -109,7 +108,6 @@ export const IndexPage: FC = () => {
     }
 
     const use = () => {
-      console.log("use", modalActive, data.username)
       if (modalActive) setModalActive("")
       else if (data.username) {
         void saveData(data)
@@ -130,7 +128,7 @@ export const IndexPage: FC = () => {
       else enableButton()
 
       mainButton.setText(intl.formatMessage({ id: "save" }))
-    } else if (!existsCondition) {
+    } else if (!existsCondition && isFetched) {
       mainButton.show()
 
       mainButton.enable()

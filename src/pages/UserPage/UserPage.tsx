@@ -56,7 +56,7 @@ export function UserPage({
           className="share"
           onClick={() =>
             utils.openTelegramLink(
-              `https://t.me/share/url?url=t.me/linksappbot/app?startApp=${data.username}`
+              `https://t.me/share/url?url=t.me/linksappbot/app?startapp=${data.username}`
             )
           }
         >
