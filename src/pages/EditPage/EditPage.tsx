@@ -144,6 +144,7 @@ export function EditPage({
             <img
               src={selectedImage}
               alt="Selected"
+              className="selected_png_not"
               style={{ maxWidth: "100%", maxHeight: "100%" }}
             />
           ) : (

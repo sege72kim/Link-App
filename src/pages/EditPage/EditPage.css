@@ -18,7 +18,7 @@
     overflow: hidden;
     margin: 0 auto;
 }
-.avatar_edit img {
+.selected_png_not{
     width: 100%;
     height: 100%;
     object-fit: cover;
