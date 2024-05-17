@@ -5,6 +5,7 @@ import type { BlockProps } from "~/types/block.ts"
 import type { UserFormItem } from "~/types/formData.ts"
 
 import "./styles.css"
+import TruncateText from "./TruncateText"
 
 const utils = new Utils("7.0", () => Math.random().toString(), postEvent)
 export function InfoBlock({ tasks, blockTitle, showNotification }: BlockProps) {
@@ -21,6 +22,8 @@ export function InfoBlock({ tasks, blockTitle, showNotification }: BlockProps) {
         }
       } else if (item.keyType === "telegrams") {
         return `@${url}`
+      } else if (item.keyType === "wallets") {
+        return <TruncateText text={url} maxLength={10} />
       } else return url
     }
     const urlClick = (url: string) => {

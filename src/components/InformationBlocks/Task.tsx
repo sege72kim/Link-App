@@ -8,6 +8,7 @@ import type { UserFormItem } from "~/types/formData.ts"
 import Modal from "../AddingModal/Modal"
 
 import "./styles.css"
+import TruncateText from "./TruncateText"
 
 interface TaskProps extends UserFormItem {
   blockTitle: string
@@ -114,6 +115,8 @@ function Task({
       if (match && match.length > 1) {
         return match[1]
       }
+    } else if (keyType === "wallets") {
+      return <TruncateText text={url} maxLength={10} />
     } else return url
   }
   const [inputActive, setInputActive] = useState(false)

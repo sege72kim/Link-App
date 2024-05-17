@@ -18,7 +18,11 @@
     overflow: hidden;
     margin: 0 auto;
 }
-
+.avatar_edit img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 .new_avatar_button {
     color: var(--link-text-color);
     font-size: 17px;
